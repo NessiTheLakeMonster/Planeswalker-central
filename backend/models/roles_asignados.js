@@ -11,12 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // Un rol puede tener varios usuarios asignados
-      roles_asignados.belongsTo(models.rol, {
+      roles_asignados.belongsTo(models.Rol, {
         foreignKey: 'id_rol'
       });
 
       // Un usuario puede tener varios roles asignados
-      roles_asignados.belongsTo(models.usuario, {
+      roles_asignados.belongsTo(models.Usuario, {
         foreignKey: 'id_usuario'
       });
     }
