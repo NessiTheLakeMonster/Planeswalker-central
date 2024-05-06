@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // Un usuario puede comprar varias cartas
-      this.belongsTo(models.usuario, {
+      this.belongsTo(models.Usuario, {
         foreignKey: 'id_comprador',
         as: 'comprador'
       });

@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // Una carta pertenece a un tipo de carta
+      // Una carta tiene un tipo de carta
       this.belongsTo(models.TipoCarta, {
         foreignKey: 'id_tipo_carta',
         as: 'tipo_carta'
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
 
       // Una carta puede estar en varios mazos
       this.belongsToMany(models.Mazo, {
-        through: 'cartas_mazo',
+        through: models.CartasMazo,
         foreignKey: 'id_carta',
         as: 'mazos'
       });

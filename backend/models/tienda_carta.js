@@ -11,13 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // Una carta esta en la tienda
-      this.belongsTo(models.carta, {
+      this.belongsTo(models.Carta, {
         foreignKey: 'id_carta',
         as: 'carta'
       });
 
       // Un vendedor tiene cartas en la tienda
-      this.belongsTo(models.usuario, {
+      this.belongsTo(models.Usuario, {
         foreignKey: 'id_vendedor',
         as: 'vendedor'
       });
