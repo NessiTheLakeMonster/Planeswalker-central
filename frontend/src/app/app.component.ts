@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,5 +10,12 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+  constructor(private router: Router) { }
+
+  isLoginOrRegister(): boolean {
+    const url = this.router.url;
+    return url.includes('/login') || url.includes('/registro') || url.includes('/error');
+  }
+
   title = 'frontend';
 }
