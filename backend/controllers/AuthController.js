@@ -2,6 +2,7 @@ const { response } = require('express')
 const ConexionUsuario = require('../database/ConexionUsuario')
 const ConexionRol = require('../database/ConexionRol')
 const { generarJWT } = require('../helpers/generate_jwt');
+const bcrypt = require('bcrypt');
 
 const cifrarPasswd = async (password) => {
     return bcrypt.hash(password, 10);
@@ -16,7 +17,8 @@ const registro = async (req, res = response) => {
         .then(usuario => {
             res.status(200).json({
                 ok: true,
-                usuario
+                msg: 'Usuario registrado correctamente',
+                "usuario": usuario
             });
         })
         .catch(error => {

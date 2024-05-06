@@ -28,6 +28,8 @@ class ConexionUsuario {
         conx.conectar();
         let resultado = 0;
         usuario.password = await bycrypt.hash(usuario.password, 10);
+        usuario.activo = 0;
+        usuario.puntos = 0;
 
         try {
             const newUsuario = await model.Usuario.create(usuario);
@@ -75,6 +77,22 @@ class ConexionUsuario {
         }
 
         return resultado;
+    }
+
+    emailExisteValidator = async (email) => {
+        let resultado = [];
+        this.con.conectar();
+
+        resultado = await models.Usuario.findAll({
+            where: {
+                email: email
+            }
+        });
+
+        this.con.desconectar();
+        if (!resultado) {
+            throw error;
+        }
     }
 }
 
