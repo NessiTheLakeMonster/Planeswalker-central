@@ -1,1 +1,16 @@
 <p>login works!</p>
+<h1>Inicia sesión</h1>
+<form [formGroup]="loginForm">
+    <div class="flex flex-column gap-2">
+        <p-card header="Login">
+            <label for="email">Email</label>
+            <input 
+                pInputText
+                id="email"
+                [(ngModel)]="value"/>
+        </p-card>
+    </div>
+
+        <p-button type="submit" [disabled]="!loginForm.valid" label="Login"></p-button>
+    
+</form>
