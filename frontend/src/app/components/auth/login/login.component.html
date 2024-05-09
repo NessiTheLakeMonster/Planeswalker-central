@@ -1,16 +1,27 @@
-<p>login works!</p>
-<h1>Inicia sesión</h1>
-<form [formGroup]="loginForm">
-    <div class="flex flex-column gap-2">
-        <p-card header="Login">
-            <label for="email">Email</label>
-            <input 
-                pInputText
-                id="email"
-                [(ngModel)]="value"/>
-        </p-card>
-    </div>
+<div class="container">
+    <h1 class="text-center mt-5">Login</h1>
 
-        <p-button type="submit" [disabled]="!loginForm.valid" label="Login"></p-button>
-    
-</form>
+    <form [formGroup]="loginForm">
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" formControlName="email">
+            <div class="text-danger">
+                @if (!loginForm.controls.email.valid && loginForm.controls.email.touched) {
+                    Email is required
+                }
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" formControlName="password">
+            <div class="text-danger">
+                @if (!loginForm.controls.password.valid && loginForm.controls.password.touched) {
+                    Password is required
+                }
+            </div>
+        </div>
+
+        <button type="submit" (click)="btnLogin()" class="btn btn-primary" [disabled]="!loginForm.valid">Login</button>
+    </form>
+</div>

@@ -5,7 +5,7 @@ const { emailExiste } = require('../helpers/customUnique')
 const { check } = require('express-validator')
 const { validarCampos } = require('../middlewares/validarCampos')
 
-router.get('/login', AuthController.login)
+router.post('/login', AuthController.login)
 
 router.post('/registro',
     [
