@@ -28,9 +28,9 @@ export class LoginComponent implements OnInit {
   });
 
   ngOnInit() {
-    if (sessionStorage.getItem('token')) {
+    /* if (sessionStorage.getItem('token')) {
       this.router.navigate(['/home'])
-    }
+    } */
   }
 
   btnLogin() {
