@@ -1,57 +1,62 @@
-<div class="container">
-    <h1 class="text-center mt-5">Registrate aquí</h1>
+<div class="center-container">
+    <div class="container card p-5">
+        <h1 class="text-center mb-5">Regístrate aquí</h1>
 
-    <form [formGroup]="registroForm">
-        <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" formControlName="nombre">
-            <div class="text-danger">
-                @if (!registroForm.controls.nombre.valid && registroForm.controls.nombre.touched) {
-                    Nombre es requerido
-                }
+        <form [formGroup]="registroForm">
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" formControlName="nombre">
+                <div class="text-danger">
+                    @if (!registroForm.controls.nombre.valid && registroForm.controls.nombre.touched) {
+                        Nombre es requerido
+                    }
+                </div>
             </div>
-        </div>
 
-        <div class="mb-3">
-            <label for="apellidos" class="form-label">Apellidos</label>
-            <input type="text" class="form-control" id="apellidos" formControlName="apellidos">
-            <div class="text-danger">
-                @if (!registroForm.controls.apellidos.valid && registroForm.controls.apellidos.touched) {
-                    Apellido es requerido
-                }
+            <div class="mb-3">
+                <label for="apellidos" class="form-label">Apellidos</label>
+                <input type="text" class="form-control" id="apellidos" formControlName="apellidos">
+                <div class="text-danger">
+                    @if (!registroForm.controls.apellidos.valid && registroForm.controls.apellidos.touched) {
+                        Apellido es requerido
+                    }
+                </div>
             </div>
-        </div>
 
-        <div class="mb-3">
-            <label for="email" class="form-label">Correo Electrónico</label>
-            <input type="email" class="form-control" id="email" formControlName="email">
-            <div class="text-danger">
-                @if (!registroForm.controls.email.valid && registroForm.controls.email.touched) {
-                    Email es requerido
-                }
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo Electrónico</label>
+                <input type="email" class="form-control" id="email" formControlName="email">
+                <div class="text-danger">
+                    @if (!registroForm.controls.email.valid && registroForm.controls.email.touched) {
+                        Email es requerido
+                    }
+                </div>
             </div>
-        </div>
 
-        <div class="mb-3">
-            <label for="nick" class="form-label">Nick</label>
-            <input type="text" class="form-control" id="nick" formControlName="nick">
-            <div class="text-danger">
-                @if (!registroForm.controls.nick.valid && registroForm.controls.nick.touched) {
-                    Nick es requerido
-                }
+            <div class="mb-3">
+                <label for="nick" class="form-label">Nick</label>
+                <input type="text" class="form-control" id="nick" formControlName="nick">
+                <div class="text-danger">
+                    @if (!registroForm.controls.nick.valid && registroForm.controls.nick.touched) {
+                        Nick es requerido
+                    }
+                </div>
             </div>
-        </div>
 
-        <div class="mb-3">
-            <label for="password" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" id="password" formControlName="password">
-            <div class="text-danger">
-                @if (!registroForm.controls.password.valid && registroForm.controls.password.touched) {
-                    Password es requerido
-                }
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" formControlName="password">
+                <div class="text-danger">
+                    @if (!registroForm.controls.password.valid && registroForm.controls.password.touched) {
+                        Password es requerido
+                    }
+                </div>
             </div>
-        </div>
 
-        <button type="submit" (click)="btnRegistro()" class="btn btn-primary" [disabled]="!registroForm.valid">Registro</button>
-    </form>
+            <div class="btn-container">
+                <button type="submit" (click)="btnRegistro()" class="btn btn-primary" [disabled]="!registroForm.valid">Registro</button>
+            </div>
+            
+        </form>
+    </div>
 </div>

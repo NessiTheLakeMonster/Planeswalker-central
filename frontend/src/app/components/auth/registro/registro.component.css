@@ -1,0 +1,25 @@
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.center-container .card {
+    max-width: 600px; 
+    width: 100%;
+    margin: 0 auto;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.alerta-flotante {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    width: 15%;
+}
