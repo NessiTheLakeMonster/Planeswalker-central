@@ -56,6 +56,10 @@
             <div class="btn-container">
                 <button type="submit" (click)="btnRegistro()" class="btn btn-primary" [disabled]="!registroForm.valid">Registro</button>
             </div>
+
+            @if (mostrarAlerta) {
+                <ngb-alert class="alerta-flotante m-4 text-center" [type]=tipoAlerta>{{ mensajeAlerta }}</ngb-alert>
+            }
             
         </form>
     </div>

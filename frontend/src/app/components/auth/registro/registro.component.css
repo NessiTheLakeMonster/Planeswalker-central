@@ -23,3 +23,13 @@
     z-index: 9999;
     width: 15%;
 }
+
+.btn-custom {
+    background-color: #123456;
+    color: #ffffff;
+}
+
+.btn-custom:hover {
+    background-color: #0f2d4d; 
+    color: #ffffff;
+}

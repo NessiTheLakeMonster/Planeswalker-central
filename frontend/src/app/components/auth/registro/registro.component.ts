@@ -4,18 +4,23 @@ import { AuthServiceService } from '../../../services/auth/auth-service.service'
 import { Router } from '@angular/router';
 import { UsuarioAcceso, UsuarioRegistro } from '../../../interfaces/auth-interface';
 import { HttpResponse } from '@angular/common/http';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-registro',
   standalone: true,
   imports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbAlertModule
   ],
   templateUrl: './registro.component.html',
   styleUrl: './registro.component.scss'
 })
 export class RegistroComponent implements OnInit {
+  tipoAlerta: string = '';
+  mensajeAlerta: string = '';
+  mostrarAlerta: boolean = false;
 
   constructor(
     private authAccess: AuthServiceService,
@@ -31,7 +36,12 @@ export class RegistroComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    
+    this.tipoAlerta = '';
+    this.mensajeAlerta = '';
+  }
+
+  cerrarAlerta() {
+    this.mostrarAlerta = false;
   }
 
   btnRegistro() {
@@ -47,9 +57,16 @@ export class RegistroComponent implements OnInit {
       next: (respuesta: HttpResponse<UsuarioAcceso>) => {
         if (respuesta.status === 200) {
           this.registroExistoso();
+          this.tipoAlerta = 'success';
+          this.mensajeAlerta = 'Registro exitoso';
         }
 
         console.log(respuesta);
+      },
+      error: (error) => {
+        this.tipoAlerta = 'danger';
+        this.mensajeAlerta = 'Error al registrar';
+        console.log(error);
       }
     }
     );
