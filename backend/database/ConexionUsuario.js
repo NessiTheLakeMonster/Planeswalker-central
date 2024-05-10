@@ -30,6 +30,7 @@ class ConexionUsuario {
         usuario.password = await bycrypt.hash(usuario.password, 10);
         usuario.activo = 0;
         usuario.puntos = 0;
+        usuario.foto_perfil = 'foto_perfil_defecto.jpg';
 
         try {
             const newUsuario = await model.Usuario.create(usuario);

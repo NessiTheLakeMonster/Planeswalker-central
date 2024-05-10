@@ -16,7 +16,7 @@ const generarUsuarios = async (cantidadUsuarios) => {
             nick: fakerES.internet.userName(),
             password: await bcrypt.hash('1234', 10),
             puntos: puntos,
-            foto_perfil: 'foto_perfil_defecto',
+            foto_perfil: 'foto_perfil_defecto.jpg',
             activo: 0,
             createdAt: new Date(),
             updatedAt: new Date()
