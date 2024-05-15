@@ -36,7 +36,7 @@ class ConexionUsuario {
             const newUsuario = await model.Usuario.create(usuario);
 
             // Cuando se crea un usuario, se le asigna el rol basico por defecto
-            const rolAsignado = await model.rolesAsignados.create({
+            await model.rolesAsignados.create({
                 id_rol: 3,
                 id_usuario: newUsuario.id
             });

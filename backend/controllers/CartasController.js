@@ -35,14 +35,20 @@ const getCartaByNombreES = async (req, res = response) => {
     let conx = new ConexionCartas();
 
     try {
-        let carta = await conx.getCartaByNombre(req.body.name);
-        console.log(carta);
-        if (carta) {
+        let cartas = await conx.getCartaByNombreES(req.body.name);
+
+        if (cartas && Array.isArray(cartas)) {
+            let cartasConId = cartas.map(carta => (
+                {
+                    id: carta.multiverseid,
+                    nombre: carta.name,
+                    nombreES: carta.foreignNames.find(fn => fn.language === "Spanish").name
+                })
+            );
 
             res.json({
                 ok: true,
-                id: carta[0].multiverseid,
-                nombre: carta[0].name,
+                cartas: cartasConId
             });
         } else {
             res.status(404).json({
@@ -51,16 +57,48 @@ const getCartaByNombreES = async (req, res = response) => {
             });
         }
     } catch (error) {
-        console.log(error);
+        res.status(500).json({
+            ok: false,
+            error: error
+        });
+    }
+}
+
+const getCartaByNombreEN = async (req, res = response) => {
+    let conx = new ConexionCartas();
+
+    try {
+        let cartas = await conx.getCartaByNombreEN(req.body.name);
+        console.log(cartas);
+
+        if (cartas && Array.isArray(cartas)) {
+            // Mapea el array de cartas para extraer solo los nombres
+            let nombres = cartas.map(carta => carta.name);
+            let id = cartas.map(carta => carta.multiverseid);
+
+            res.json({
+                ok: true,
+                id: id,
+                nombres: nombres
+            });
+        } else {
+            res.status(404).json({
+                ok: false,
+                error: "Carta no encontrada"
+            });
+        }
+    } catch (error) {
         res.status(500).json({
             ok: false,
             error : error
         });
-        
+
+        console.log(error);
     }
 }
 
 module.exports = {
     getCartaById,
-    getCartaByNombreES
+    getCartaByNombreES,
+    getCartaByNombreEN
 }
