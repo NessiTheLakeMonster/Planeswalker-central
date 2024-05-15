@@ -10,7 +10,8 @@ class Server {
         this.app = express();
         this.authPath = '/api/auth';
         this.usuariosPath = '/api/usuarios';
-        this.tareasPath = '/api/tareas';
+        this.cartasPath = '/api/cartas';
+        this.tiendaPath = '/api/tienda';
 
         //Middlewares
         this.middlewares();
@@ -27,7 +28,8 @@ class Server {
     routes() {
         this.app.use(this.authPath, require('../routes/authRoutes'));
         this.app.use(this.usuariosPath, require('../routes/usuarioRoutes'));
-        /* this.app.use(this.tareasPath, require('../routes/tareasRoutes')); */
+        this.app.use(this.cartasPath, require('../routes/cartasRoutes'));
+        this.app.use(this.tiendaPath, require('../routes/tiendaRoutes'));
     }
 
     listen() {
