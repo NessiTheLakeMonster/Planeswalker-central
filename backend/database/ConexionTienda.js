@@ -26,6 +26,31 @@ class ConexionTienda {
 
         return resultado;
     }
+
+    getTienda = async () => {
+        conx.conectar();
+        let resultado = null;
+
+        try {
+            resultado = await model.tiendaCarta.findAll(
+                include = [{
+                    model: model.Carta,
+                    as: "carta",
+                    attributes: ["nombre"]
+                }, {
+                    model: model.Usuario,
+                    as: "vendedor",
+                    attributes: ["nombre"]
+                }]
+            );
+        } catch (error) {
+            resultado = null;
+        } finally {
+            conx.desconectar();
+        }
+
+        return resultado;
+    }
 }
 
 module.exports = ConexionTienda

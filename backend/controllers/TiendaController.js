@@ -27,6 +27,34 @@ const postTienda = async (req, res = response) => {
     }
 }
 
+const getTienda = async (req, res = response) => {
+    let conx = new ConexionTienda();
+
+    try {
+        let resultado = await conx.getTienda();
+
+        console.log(resultado);
+
+        if (resultado) {
+            res.json({
+                ok: true,
+                resultado
+            });
+        } else {
+            res.status(400).json({
+                ok: false,
+                error: "No se pudo obtener la tienda"
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            error
+        });
+    }
+}
+
 module.exports = {
-    postTienda
+    postTienda,
+    getTienda
 }
