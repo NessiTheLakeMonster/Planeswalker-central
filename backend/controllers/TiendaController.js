@@ -31,14 +31,12 @@ const getTienda = async (req, res = response) => {
     let conx = new ConexionTienda();
 
     try {
-        let resultado = await conx.getTienda();
+        let articulos = await conx.getTienda();
 
-        console.log(resultado);
-
-        if (resultado) {
+        if (articulos) {
             res.json({
                 ok: true,
-                resultado
+                articulos
             });
         } else {
             res.status(400).json({

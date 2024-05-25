@@ -29,22 +29,23 @@ class ConexionTienda {
 
     getTienda = async () => {
         conx.conectar();
-        let resultado = null;
+        let resultado;
 
         try {
             resultado = await model.tiendaCarta.findAll(
-                include = [{
-                    model: model.Carta,
-                    as: "carta",
-                    attributes: ["nombre"]
-                }, {
-                    model: model.Usuario,
-                    as: "vendedor",
-                    attributes: ["nombre"]
-                }]
-            );
+                {
+                    include: [{
+                        model: model.Carta,
+                        as: "carta",
+                        attributes: ["nombre_es", "nombre_en", "foto_es", "foto_en"]
+                    }, {
+                        model: model.Usuario,
+                        as: "vendedor",
+                        attributes: ["nombre", "apellidos", "nick"]
+                    }]
+                });
         } catch (error) {
-            resultado = null;
+            throw error;
         } finally {
             conx.desconectar();
         }

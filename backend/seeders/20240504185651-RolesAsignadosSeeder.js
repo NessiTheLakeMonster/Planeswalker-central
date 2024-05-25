@@ -4,6 +4,8 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     let roles_usuario = []
+
+    // Los usuarios tienen por defecto el rol de comprador
     for (let i = 1; i < 9; i++) {
       let rolusuario = {
         id_usuario: i,
@@ -13,6 +15,19 @@ module.exports = {
       }
       roles_usuario.push(rolusuario)
     }
+
+    // El usuario 1 y 2 tienes el rol de vendedor
+    for (let i = 1; i < 2; i++) {
+      let rolusuario = {
+        id_usuario: i,
+        id_rol: 2,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+      roles_usuario.push(rolusuario)
+    }
+
+    // El usuario 8 tiene el rol de admin
     let rolAdmin = {
       id_usuario: 8,
       id_rol: 1,

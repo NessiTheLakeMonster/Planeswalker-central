@@ -15,6 +15,7 @@ const getCartaById = async (req, res = response) => {
                 id: carta.card.multiverseid,
                 nameES: cartaES,
                 name: carta.card.name,
+                imageUrl: carta.card.imageUrl
             });
         } else {
             res.status(404).json({
