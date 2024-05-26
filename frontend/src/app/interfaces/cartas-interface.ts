@@ -63,3 +63,11 @@ export interface Ruling {
 export interface CartaBuscar {
     name: string;
 }
+
+export interface CartaGuardar {
+    id_api: number;
+    nombre_es: string;
+    nombre_en: string;
+    foto_es: string;
+    foto_en: string;
+}

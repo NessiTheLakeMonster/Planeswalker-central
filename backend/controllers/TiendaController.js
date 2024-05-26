@@ -6,7 +6,6 @@ const postTienda = async (req, res = response) => {
 
     try {
         let resultado = await conx.postTienda(req.body);
-        console.log(req.body);
 
         if (resultado) {
             res.json({

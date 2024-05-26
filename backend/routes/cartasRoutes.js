@@ -6,6 +6,6 @@ router.get('/:id', CartasController.getCartaById)
 
 router.post('/', CartasController.getCartaByNombreES)
 
-/* router.get('/', CartasController.getCartaByNombreEN) */
+router.post('/guardar', CartasController.guardarCarta)
 
 module.exports = router

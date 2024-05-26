@@ -26,3 +26,10 @@ export interface Vendedor {
     apellidos : string;
     nick : string;
 }
+
+export interface VenderCarta {
+    id_vendedor : number;
+    id_carta : number;
+    precio : number;
+    estado : string;
+}

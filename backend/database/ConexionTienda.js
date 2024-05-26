@@ -49,6 +49,12 @@ class ConexionTienda {
                         activa: 0,
                         comprada: 0
                     }
+                },
+                {
+                    order: [
+                        ['nombre_es', 'DESC']
+                    ]
+
                 });
         } catch (error) {
             throw error;

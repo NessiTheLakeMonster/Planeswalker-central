@@ -28,37 +28,17 @@ class ConexionCartas {
         return resultado;
     }
 
-    getCartaByNombreEN = async (name) => {
-        let resultado = 0;
-
-        try {
-            resultado = await mtg.card.where({ name: name });
-            console.log(resultado);
-        } catch (error) {
-            resultado = null;
-        }
-
-        console.log(resultado);
-
-        return resultado;
-    }
-
     guardarCarta = async (carta) => {
         conx.conectar();
-        let resultado = 0;
+        let resultado = null;
 
         try {
-            let cartaGuardada = await model.Carta.create({
-                multiverseid: carta.multiverseid,
-                nombre: carta.name,
-                nombreES: carta.foreignNames.find(fn => fn.language === "Spanish").name
-            });
+            let cartaGuardada = await model.Carta.create(carta);
 
             if (cartaGuardada) {
-                resultado = 1;
-            } else {
-                resultado = 0;
+                resultado = cartaGuardada;
             }
+
         } catch (error) {
             resultado = null;
         } finally {

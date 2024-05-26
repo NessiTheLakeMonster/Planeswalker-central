@@ -64,41 +64,37 @@ const getCartaByNombreES = async (req, res = response) => {
     }
 }
 
-const getCartaByNombreEN = async (req, res = response) => {
+const guardarCarta = async (req, res = response) => {
     let conx = new ConexionCartas();
 
     try {
-        let cartas = await conx.getCartaByNombreEN(req.body.name);
-        console.log(cartas);
+        let carta = await conx.guardarCarta(req.body);
+        console.log(req.body);
+        console.log(carta);
 
-        if (cartas && Array.isArray(cartas)) {
-            // Mapea el array de cartas para extraer solo los nombres
-            let nombres = cartas.map(carta => carta.name);
-            let id = cartas.map(carta => carta.multiverseid);
-
+        if (carta) {
             res.json({
                 ok: true,
-                id: id,
-                nombres: nombres
+                carta : carta
             });
         } else {
-            res.status(404).json({
+            res.status(400).json({
                 ok: false,
-                error: "Carta no encontrada"
+                error: "No se pudo guardar la carta"
             });
+
+            console.log(error)
         }
     } catch (error) {
         res.status(500).json({
             ok: false,
-            error : error
+            error
         });
-
-        console.log(error);
     }
 }
 
 module.exports = {
     getCartaById,
     getCartaByNombreES,
-    getCartaByNombreEN
+    guardarCarta
 }
