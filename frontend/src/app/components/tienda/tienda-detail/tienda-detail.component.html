@@ -1,3 +1,30 @@
-<div class="container">
-    <h1 class="text-center p-5">Detalle de la carta</h1>
-</div>
+@if (loading == true) {
+    <div class="loading-container">
+        <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+            <div class="spinner-grow text-primary spinner-grow-lg" role="status">
+                <span class="sr-only"></span>
+            </div>
+        </div>
+    </div>
+} @else {
+    <div class="container">
+        <h1 class="text-center p-5">Detalle de la carta</h1>
+    
+        <div class="card">
+            <div class="row">
+                <div class="col-sm-6">
+                    <img class="card-img-top p-2" src="{{articulo?.carta?.foto_es}}" alt="">
+                </div>
+                <div class="col-sm-6">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">{{articulo?.carta?.nombre_es}}</h5>
+                        <p class="card-text text-center">Tipo: {{carta?.type}}</p>
+                        <p class="card-text text-center">Rareza: {{carta?.rarity}}</p>
+                        <p class="card-text text-center">Set: {{carta?.setName}} ({{carta?.set}})</p>
+                        <p class="card-text text-center">{{articulo?.precio}} €</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

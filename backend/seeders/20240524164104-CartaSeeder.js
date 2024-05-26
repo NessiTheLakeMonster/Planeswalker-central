@@ -26,8 +26,8 @@ module.exports = {
         id_api: 386717,
         nombre_es: 'Aspirante a nombre bélico',
         nombre_en: 'War-Name Aspirant',
-        foto_es: 'http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=389325&type=card',
-        foto_en: 'http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=386635&type=card',
+        foto_es: 'http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=389407&type=card',
+        foto_en: 'http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=386717&type=card',
         createdAt: new Date(),
         updatedAt: new Date()
       },

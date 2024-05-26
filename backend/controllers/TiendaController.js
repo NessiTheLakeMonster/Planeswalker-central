@@ -52,7 +52,34 @@ const getTienda = async (req, res = response) => {
     }
 }
 
+const getTiendaById = async (req, res = response) => {
+    let conx = new ConexionTienda();
+
+    try {
+        let articulo = await conx.getTiendaById(req.params.id);
+
+        if (articulo) {
+            res.json({
+                ok: true,
+                articulo
+            });
+        } else {
+            res.status(404).json({
+                ok: false,
+                error: "Artículo no encontrado"
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            error
+        });
+    }
+}
+
+
 module.exports = {
     postTienda,
-    getTienda
+    getTienda,
+    getTiendaById
 }

@@ -4,7 +4,7 @@ const router = Router()
 
 router.get('/:id', CartasController.getCartaById)
 
-router.get('/', CartasController.getCartaByNombreES)
+router.post('/', CartasController.getCartaByNombreES)
 
 /* router.get('/', CartasController.getCartaByNombreEN) */
 

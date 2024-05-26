@@ -12,10 +12,7 @@ const getCartaById = async (req, res = response) => {
         if (cartaES) {
             res.json({
                 ok: true,
-                id: carta.card.multiverseid,
-                nameES: cartaES,
-                name: carta.card.name,
-                imageUrl: carta.card.imageUrl
+                carta: carta.card
             });
         } else {
             res.status(404).json({
@@ -42,8 +39,10 @@ const getCartaByNombreES = async (req, res = response) => {
             let cartasConId = cartas.map(carta => (
                 {
                     id: carta.multiverseid,
-                    nombre: carta.name,
-                    nombreES: carta.foreignNames.find(fn => fn.language === "Spanish").name
+                    nombre_en: carta.name,
+                    nombre_es: carta.foreignNames.find(fn => fn.language === "Spanish").name,
+                    foto_en: carta.imageUrl,
+                    foto_es: carta.foreignNames.find(fn => fn.language === "Spanish").imageUrl
                 })
             );
 

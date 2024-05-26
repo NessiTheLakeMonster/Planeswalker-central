@@ -14,6 +14,7 @@ export interface Tienda {
 }
 
 export interface CartaTienda {
+    id_api : string;
     nombre_es : string;
     nombre_en : string;
     foto_es : string;

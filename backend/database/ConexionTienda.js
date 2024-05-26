@@ -37,7 +37,39 @@ class ConexionTienda {
                     include: [{
                         model: model.Carta,
                         as: "carta",
-                        attributes: ["nombre_es", "nombre_en", "foto_es", "foto_en"]
+                        attributes: ["id_api", "nombre_es", "nombre_en", "foto_es", "foto_en"]
+                    }, {
+                        model: model.Usuario,
+                        as: "vendedor",
+                        attributes: ["nombre", "apellidos", "nick"]
+                    }]
+                },
+                {
+                    where: {
+                        activa: 0,
+                        comprada: 0
+                    }
+                });
+        } catch (error) {
+            throw error;
+        } finally {
+            conx.desconectar();
+        }
+
+        return resultado;
+    }
+
+    getTiendaById = async (id) => {
+        conx.conectar();
+        let resultado;
+
+        try {
+            resultado = await model.tiendaCarta.findByPk(id,
+                {
+                    include: [{
+                        model: model.Carta,
+                        as: "carta",
+                        attributes: ["id_api", "nombre_es", "nombre_en", "foto_es", "foto_en"]
                     }, {
                         model: model.Usuario,
                         as: "vendedor",
