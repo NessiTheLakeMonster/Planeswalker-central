@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { UsuarioSessionStorage } from '../../interfaces/usuario-interface';
+import { UtilsServiceService } from '../../services/utils/utils-service.service';
+import { UsuarioServiceService } from '../../services/usuarios/usuario-service.service';
 
 @Component({
   selector: 'app-header',
@@ -10,12 +13,71 @@ import { RouterModule } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
-  
+export class HeaderComponent implements OnInit {
+
+  usuario?: any = {};
+  rol: string[] = [];
+  id: number = 0;
+  logeado: boolean = false;
+
+  constructor(
+    private utilesService: UtilsServiceService,
+    private usuarioService: UsuarioServiceService,
+    private router: Router
+  ) { }
+
+  ngOnInit(): void {
+    const token = sessionStorage.getItem('token');
+
+    if (token) {
+      this.usuario = this.utilesService.getUsuarioSession(token);
+      console.log(this.usuario);
+      this.logeado = true;
+    } else {
+      this.logeado = false;
+    }
+
+    /* this.getRoles(); */
+  }
+
+  /* getRoles() {
+    this.usuarioService.getRolesUsuario(this.usuario?.uid).subscribe({
+      next: (respuesta: any) => {
+        this.rol = respuesta.body.roles;
+        console.log(this.rol);
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    });
+  } */
+
+  tieneRolAdmin(): boolean | undefined {
+    let retornar = this.usuario?.roles.includes('admin');
+    return retornar
+  }
+
+  tieneRolVendedor(): boolean | undefined {
+    let retornar = this.usuario?.roles.includes('vendedor');
+    return retornar
+  }
+
+  tieneRolComprador(): boolean | undefined {
+    let retornar = this.usuario?.roles.includes('comprador');
+    return retornar
+  }
+
   toggle() {
     const sidebar = document.querySelector("#sidebar");
     if (sidebar) {
       sidebar.classList.toggle('expand');
     }
   }
+
+  btnCerrarSesion() {
+    sessionStorage.removeItem('token');
+    this.logeado = false;
+    this.router.navigate(['/']);
+  }
+
 }
