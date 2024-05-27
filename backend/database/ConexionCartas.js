@@ -48,6 +48,48 @@ class ConexionCartas {
         return resultado;
     }
 
+    checkCartaRepetida = async (id) => {
+        conx.conectar();
+        let resultado = null;
+
+        try {
+            let carta = await model.Carta.findOne({ where: { id_api: id } });
+
+            if (carta) {
+                resultado = false;
+            } else {
+                resultado = true;
+            }
+
+        } catch (error) {
+            resultado = null;
+        } finally {
+            conx.desconectar();
+        }
+
+        return resultado;
+    }
+
+    getCartaByIdLocal = async (id) => {
+        conx.conectar();
+        let resultado = null;
+
+        try {
+            let carta = await model.Carta.findOne({ where: { id_api: id } });
+
+            if (carta) {
+                resultado = carta;
+            }
+
+        } catch (error) {
+            resultado = null;
+        } finally {
+            conx.desconectar();
+        }
+
+        return resultado;
+    }
+
     checkFormatosJugables = async (id) => {
     }
 }

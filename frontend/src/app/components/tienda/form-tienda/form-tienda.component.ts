@@ -21,6 +21,7 @@ export class FormTiendaComponent {
   loadingModal: boolean = false;
   cartas: any = [];
   ids: any = [];
+  cartaSeleccionada: any = [];
 
   cartaGuardada: CartaGuardar = {
     id_api: 0,
@@ -97,6 +98,7 @@ export class FormTiendaComponent {
     this.cartasService.guardarCarta(this.cartaGuardada).subscribe({
       next: (respuesta: HttpResponse<any>) => {
         console.log(respuesta.body.carta);
+        this.cartaSeleccionada = respuesta.body.carta;
       },
       error: (error: any) => {
         console.log(error);

@@ -68,22 +68,33 @@ const guardarCarta = async (req, res = response) => {
     let conx = new ConexionCartas();
 
     try {
-        let carta = await conx.guardarCarta(req.body);
-        console.log(req.body);
-        console.log(carta);
 
-        if (carta) {
-            res.json({
-                ok: true,
-                carta : carta
-            });
+        let repetida = await conx.checkCartaRepetida(req.body.id_api);
+
+        if (repetida) {
+
+            let carta = await conx.guardarCarta(req.body);
+
+            if (carta) {
+                res.json({
+                    ok: true,
+                    carta: carta
+                });
+            } else {
+                res.status(400).json({
+                    ok: false,
+                    error: "No se pudo guardar la carta"
+                });
+            }
         } else {
+
+            let carta = await conx.getCartaByIdLocal(req.body.id_api);
+
             res.status(400).json({
                 ok: false,
-                error: "No se pudo guardar la carta"
+                error: "Carta repetida",
+                carta: carta
             });
-
-            console.log(error)
         }
     } catch (error) {
         res.status(500).json({
