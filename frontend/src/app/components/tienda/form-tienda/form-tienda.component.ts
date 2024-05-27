@@ -4,6 +4,8 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Carta, CartaBuscar, CartaGuardar } from '../../../interfaces/cartas-interface';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpResponse } from '@angular/common/http';
+import { TiendaServiceService } from '../../../services/tienda/tienda-service.service';
+import { VenderCarta } from '../../../interfaces/tienda-interface';
 
 @Component({
   selector: 'app-form-tienda',
@@ -19,8 +21,8 @@ import { HttpResponse } from '@angular/common/http';
 export class FormTiendaComponent {
   loading: boolean = false;
   loadingModal: boolean = false;
+
   cartas: any = [];
-  ids: any = [];
   cartaSeleccionada: any = [];
 
   cartaGuardada: CartaGuardar = {
@@ -35,8 +37,16 @@ export class FormTiendaComponent {
     name: new FormControl('', Validators.required)
   });
 
+  vender = new FormGroup({
+    id_carta: new FormControl(0, Validators.required),
+    id_vendedor: new FormControl(0, Validators.required),
+    precio: new FormControl(0, Validators.required),
+    estado: new FormControl('', Validators.required)
+  });
+
   constructor(
     private cartasService: CartasServiceService,
+    private tiendaService: TiendaServiceService,
   ) { }
 
   btnBuscarCarta() {
@@ -44,15 +54,11 @@ export class FormTiendaComponent {
       name: this.buscar.value.name ?? ''
     }
 
-    let cartaVender
-
     this.loading = true;
 
     this.cartasService.getCartasByNombre(cartaBuscar).subscribe({
       next: (respuesta: HttpResponse<any>) => {
         this.cartas = respuesta.body.cartas;
-
-        console.log(this.cartas);
 
         this.loading = false;
       },
@@ -83,15 +89,6 @@ export class FormTiendaComponent {
         console.log(error);
       }
     });
-
-    /* this.cartas = [];
-    this.cartas = {
-      id: 0,
-      nombre_en: '',
-      nombre_es: '',
-      foto_en: '',
-      foto_es: ''
-    }; */
   }
 
   guardarCarta() {
@@ -99,11 +96,40 @@ export class FormTiendaComponent {
       next: (respuesta: HttpResponse<any>) => {
         console.log(respuesta.body.carta);
         this.cartaSeleccionada = respuesta.body.carta;
+
+        if (respuesta.status === 203) {
+          this.cartaSeleccionada = respuesta.body.carta;
+        }
+
+        this.cartas = [];
+        this.cartas = [this.cartaSeleccionada];
       },
       error: (error: any) => {
         console.log(error);
       }
     });
+  }
+
+  postCarta() {
+    let cartaVender: VenderCarta = {
+      id_carta: this.cartaSeleccionada.id ?? 0,
+      id_vendedor: this.vender.value.id_vendedor ?? 0,
+      precio: this.vender.value.precio ?? 0,
+      estado: this.vender.value.estado ?? ''
+    }
+
+    this.tiendaService.postArticulo(cartaVender).subscribe({
+      next: (respuesta: HttpResponse<any>) => {
+        console.log(respuesta.body.articulo);
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    });
+  }
+
+  getIdVendedor() {
+
   }
 
 }

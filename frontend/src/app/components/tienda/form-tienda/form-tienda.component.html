@@ -73,9 +73,38 @@
                 
                 </div>
             }
+        </div>
     </div>
 
     
-    <form ></form>
+    <form [formGroup]="vender">
+
+        <div class="mb-3">
+            <label for="precio" class="form-label">Precio</label>
+            <input type="text" class="form-control" id="precio" formControlName="precio" required>
+            <div class="text-danger">
+                @if (!vender.controls.precio.valid && vender.controls.precio.touched) {
+                    El precio es obligatorio
+                }
+            </div>
+
+            <label for="estado" class="form-label">Estado</label>
+            <select class="form-select form-control" formControlName="estado" required>
+                <option selected></option>
+                <option value="Nueva">Nueva</option>
+                <option value="Casi nueva">Casi nueva</option>
+                <option value="Usada">Usada</option>
+            </select>
+            <div class="text-danger">
+                @if (!vender.controls.estado.valid && vender.controls.estado.touched) {
+                    El estado es obligatorio
+                }
+            </div>
+
+            <div>
+                <button class="btn btn-primary m-3" (click)="postCarta()">Vender</button>
+            </div>
+        </div>
+    </form>
 
 </div>

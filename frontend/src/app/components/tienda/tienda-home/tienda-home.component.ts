@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TiendaServiceService } from '../../../services/tienda/tienda-service.service';
 import { ArticuloTienda, Tienda } from '../../../interfaces/tienda-interface';
 import { HttpResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tienda-home',
@@ -13,7 +14,10 @@ import { HttpResponse } from '@angular/common/http';
 export class TiendaHomeComponent implements OnInit {
   articulos?: ArticuloTienda[] = [];
 
-  constructor(private tiendaService: TiendaServiceService) { }
+  constructor(
+    private tiendaService: TiendaServiceService,
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
     this.getTienda();
@@ -28,5 +32,9 @@ export class TiendaHomeComponent implements OnInit {
         console.log(error);
       }
     });
+  }
+
+  vender() {
+    this.router.navigate(['/vender']);
   }
 }

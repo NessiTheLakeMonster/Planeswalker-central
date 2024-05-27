@@ -71,3 +71,8 @@ export interface CartaGuardar {
     foto_es: string;
     foto_en: string;
 }
+
+export interface CartaNoRepetida {
+    id : number;
+    status : string;
+}

@@ -90,8 +90,9 @@ const guardarCarta = async (req, res = response) => {
 
             let carta = await conx.getCartaByIdLocal(req.body.id_api);
 
-            res.status(400).json({
+            res.status(203).json({
                 ok: false,
+                status: 203,
                 error: "Carta repetida",
                 carta: carta
             });
