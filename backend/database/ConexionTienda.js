@@ -26,6 +26,70 @@ class ConexionTienda {
 
         return resultado;
     }
+
+    getTienda = async () => {
+        conx.conectar();
+        let resultado;
+
+        try {
+            resultado = await model.tiendaCarta.findAll(
+                {
+                    include: [{
+                        model: model.Carta,
+                        as: "carta",
+                        attributes: ["id_api", "nombre_es", "nombre_en", "foto_es", "foto_en"]
+                    }, {
+                        model: model.Usuario,
+                        as: "vendedor",
+                        attributes: ["nombre", "apellidos", "nick"]
+                    }]
+                },
+                {
+                    where: {
+                        activa: 0,
+                        comprada: 0
+                    }
+                },
+                {
+                    order: [
+                        ['nombre_es', 'DESC']
+                    ]
+
+                });
+        } catch (error) {
+            throw error;
+        } finally {
+            conx.desconectar();
+        }
+
+        return resultado;
+    }
+
+    getTiendaById = async (id) => {
+        conx.conectar();
+        let resultado;
+
+        try {
+            resultado = await model.tiendaCarta.findByPk(id,
+                {
+                    include: [{
+                        model: model.Carta,
+                        as: "carta",
+                        attributes: ["id_api", "nombre_es", "nombre_en", "foto_es", "foto_en"]
+                    }, {
+                        model: model.Usuario,
+                        as: "vendedor",
+                        attributes: ["nombre", "apellidos", "nick"]
+                    }]
+                });
+        } catch (error) {
+            throw error;
+        } finally {
+            conx.desconectar();
+        }
+
+        return resultado;
+    }
 }
 
 module.exports = ConexionTienda

@@ -9,17 +9,20 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      nombre: {
+      id_api: {
+        type: Sequelize.INTEGER
+      },
+      nombre_es: {
         type: Sequelize.STRING
       },
-      id_tipo_carta: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: {
-            tableName: 'tipo_carta'
-          },
-          key: 'id'
-        }
+      nombre_en: {
+        type: Sequelize.STRING
+      },
+      foto_es: {
+        type: Sequelize.STRING
+      },
+      foto_en: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

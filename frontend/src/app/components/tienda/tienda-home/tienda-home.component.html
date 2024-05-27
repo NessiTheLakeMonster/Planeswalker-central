@@ -1,0 +1,28 @@
+<div class="container">
+
+    <h1 class="text-center p-5">Tienda</h1>
+
+        <div class="grid-container">
+            @for (articulo of articulos; track articulo) {
+                <div class="card">
+                    <img class="card-img-top p-2" src="{{articulo.carta.foto_es}}" alt="">
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{articulo.carta.nombre_es}}</h5>
+                        <p class="card-text">{{articulo.precio}} €</p>
+                    </div>
+
+                    <div class="card-footer">
+                        <a href="/tienda/{{articulo.id}}" class="btn btn-primary">Ver</a>
+                    </div>
+
+                </div>
+                
+            }
+        </div>
+
+</div>
+
+<div>
+    <button class="btn btn-primary" (click)="vender()">Vender una carta</button>
+</div>

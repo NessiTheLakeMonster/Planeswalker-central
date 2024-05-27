@@ -12,9 +12,7 @@ const getCartaById = async (req, res = response) => {
         if (cartaES) {
             res.json({
                 ok: true,
-                id: carta.card.multiverseid,
-                nameES: cartaES,
-                name: carta.card.name,
+                carta: carta.card
             });
         } else {
             res.status(404).json({
@@ -41,8 +39,10 @@ const getCartaByNombreES = async (req, res = response) => {
             let cartasConId = cartas.map(carta => (
                 {
                     id: carta.multiverseid,
-                    nombre: carta.name,
-                    nombreES: carta.foreignNames.find(fn => fn.language === "Spanish").name
+                    nombre_en: carta.name,
+                    nombre_es: carta.foreignNames.find(fn => fn.language === "Spanish").name,
+                    foto_en: carta.imageUrl,
+                    foto_es: carta.foreignNames.find(fn => fn.language === "Spanish").imageUrl
                 })
             );
 
@@ -64,41 +64,49 @@ const getCartaByNombreES = async (req, res = response) => {
     }
 }
 
-const getCartaByNombreEN = async (req, res = response) => {
+const guardarCarta = async (req, res = response) => {
     let conx = new ConexionCartas();
 
     try {
-        let cartas = await conx.getCartaByNombreEN(req.body.name);
-        console.log(cartas);
 
-        if (cartas && Array.isArray(cartas)) {
-            // Mapea el array de cartas para extraer solo los nombres
-            let nombres = cartas.map(carta => carta.name);
-            let id = cartas.map(carta => carta.multiverseid);
+        let repetida = await conx.checkCartaRepetida(req.body.id_api);
 
-            res.json({
-                ok: true,
-                id: id,
-                nombres: nombres
-            });
+        if (repetida) {
+
+            let carta = await conx.guardarCarta(req.body);
+
+            if (carta) {
+                res.json({
+                    ok: true,
+                    carta: carta
+                });
+            } else {
+                res.status(400).json({
+                    ok: false,
+                    error: "No se pudo guardar la carta"
+                });
+            }
         } else {
-            res.status(404).json({
+
+            let carta = await conx.getCartaByIdLocal(req.body.id_api);
+
+            res.status(203).json({
                 ok: false,
-                error: "Carta no encontrada"
+                status: 203,
+                error: "Carta repetida",
+                carta: carta
             });
         }
     } catch (error) {
         res.status(500).json({
             ok: false,
-            error : error
+            error
         });
-
-        console.log(error);
     }
 }
 
 module.exports = {
     getCartaById,
     getCartaByNombreES,
-    getCartaByNombreEN
+    guardarCarta
 }

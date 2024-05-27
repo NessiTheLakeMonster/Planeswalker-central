@@ -28,37 +28,59 @@ class ConexionCartas {
         return resultado;
     }
 
-    getCartaByNombreEN = async (name) => {
-        let resultado = 0;
+    guardarCarta = async (carta) => {
+        conx.conectar();
+        let resultado = null;
 
         try {
-            resultado = await mtg.card.where({ name: name });
-            console.log(resultado);
+            let cartaGuardada = await model.Carta.create(carta);
+
+            if (cartaGuardada) {
+                resultado = cartaGuardada;
+            }
+
         } catch (error) {
             resultado = null;
+        } finally {
+            conx.desconectar();
         }
-
-        console.log(resultado);
 
         return resultado;
     }
 
-    guardarCarta = async (carta) => {
+    checkCartaRepetida = async (id) => {
         conx.conectar();
-        let resultado = 0;
+        let resultado = null;
 
         try {
-            let cartaGuardada = await model.Carta.create({
-                multiverseid: carta.multiverseid,
-                nombre: carta.name,
-                nombreES: carta.foreignNames.find(fn => fn.language === "Spanish").name
-            });
+            let carta = await model.Carta.findOne({ where: { id_api: id } });
 
-            if (cartaGuardada) {
-                resultado = 1;
+            if (carta) {
+                resultado = false;
             } else {
-                resultado = 0;
+                resultado = true;
             }
+
+        } catch (error) {
+            resultado = null;
+        } finally {
+            conx.desconectar();
+        }
+
+        return resultado;
+    }
+
+    getCartaByIdLocal = async (id) => {
+        conx.conectar();
+        let resultado = null;
+
+        try {
+            let carta = await model.Carta.findOne({ where: { id_api: id } });
+
+            if (carta) {
+                resultado = carta;
+            }
+
         } catch (error) {
             resultado = null;
         } finally {
