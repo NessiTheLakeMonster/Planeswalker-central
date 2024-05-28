@@ -57,40 +57,68 @@ const recomendacionMazo = async (req, res = response) => {
     const conxCartas = new ConexionCartas();
     const conxPlanificador = new ConexionPlanificadorMazos();
 
-    const commanderLength = 100;
-    const standardLength = 60;
     let mazoLength = 0;
+    let requisitos = [];
 
-    /* const mazo = await conxPlanificador.postRecomendacionMazo(req.body); */
-
-    // Se establece la cantidad de cartas que se añadiran según el formato
+    // Se establece la cantidad de cartas que se añadirán según el formato
     if (req.body.formato === 'Commander') {
-        mazoLength = commanderLength;
+        mazoLength = 100;
+        requisitos = [
+            { tipo: 'Land', min: 37, max: 40 },
+            { tipo: 'Creature', min: 25, max: 30 },
+            { tipo: 'Sorcery', min: 5, max: 10 },
+            { tipo: 'Instant', min: 5, max: 10 },
+            { tipo: 'Enchantment', min: 5, max: 10 },
+            { tipo: 'Artifact', min: 5, max: 10 },
+            { tipo: 'Planeswalker', min: 3, max: 5 }
+        ];
+
     } else if (req.body.formato === 'Standard') {
-        mazoLength = standardLength;
+        mazoLength = 60;
+        requisitos = [
+            { tipo: 'Land', min: 24, max: 24 },
+            { tipo: 'Creature', min: 20, max: 24 },
+            { tipo: 'Sorcery', min: 4, max: 8 },
+            { tipo: 'Instant', min: 4, max: 8 },
+            { tipo: 'Enchantment', min: 2, max: 4 },
+            { tipo: 'Artifact', min: 2, max: 4 },
+            { tipo: 'Planeswalker', min: 1, max: 2 }
+        ];
     }
 
-    const cartas = []
+    let numCartasPorTipo;
+    let longitudMazo;
 
+    // Se genera un mazo aleatorio que cumpla con los requisitos establecidos
+    do {
+        numCartasPorTipo = {};
 
-    /* while (checkMazoLleno(6, cartas) === false) {
-        // Se añaden las cartas de cada tipo
-        const tierra = await conxPlanificador.getCartasByType(3, 'Land');
-        cartas.push(...tierra);
-        
-        const carta = await conxPlanificador.getCartasByType(3, 'Creature');
-        cartas.push(...carta);
+        for (const req of requisitos) {
+            numCartasPorTipo[req.tipo] = Math.floor(Math.random() * (req.max - req.min + 1)) + req.min;
+        }
 
-        console.log(cartas.length);
-    } */
+        longitudMazo = Object.values(numCartasPorTipo).reduce((a, b) => a + b, 0);
+        console.log(numCartasPorTipo);
+        console.log(longitudMazo);
+    } while (longitudMazo !== mazoLength);
 
-    await addCreatureCards(conxPlanificador, cartas, 20);
+    const cartas = [];
+
+    // Se añaden las cartas al mazo
+    for (const tipo in numCartasPorTipo) {
+        const cartasDisponibles = await conxPlanificador.getCartasByType(100, tipo);
+        const numCartasAñadir = Math.min(numCartasPorTipo[tipo], cartasDisponibles.length);
+        cartas.push(...cartasDisponibles.slice(0, numCartasAñadir));
+    }
+
     console.log(cartas.length);
+
 
     res.json({
         cartas: cartas
     });
-}
+};
+
 
 checkMazoLleno = (mazoLenght, cartas) => {
     let mazoLleno = false;
@@ -104,7 +132,7 @@ checkMazoLleno = (mazoLenght, cartas) => {
 
 const addCreatureCards = async (conxPlanificador, cartas, maxCartas) => {
 
-    const todasLasCriaturas = await conxPlanificador.getCartasByType(100, 'Creature'); // obtener más de 20 para tener de dónde elegir
+    const randomCriaturas = await conxPlanificador.getCartasByType(100, 'Creature'); // obtener más de 20 para tener de dónde elegir
 
     // Definir los requisitos de CMC
     const cmcRequisitos = [
@@ -124,7 +152,7 @@ const addCreatureCards = async (conxPlanificador, cartas, maxCartas) => {
 
     // Organizar las cartas por CMC en un objeto
     const cartasPorCMC = {};
-    todasLasCriaturas.forEach(carta => {
+    randomCriaturas.forEach(carta => {
         if (!cartasPorCMC[carta.cmc]) {
             cartasPorCMC[carta.cmc] = [];
         }
@@ -158,7 +186,7 @@ const addCreatureCards = async (conxPlanificador, cartas, maxCartas) => {
         return false;
     };
 
-    rellenarCartasCriatura(0, 0, []); 
+    rellenarCartasCriatura(0, 0, []);
     cartas.push(...resultado);
 };
 
