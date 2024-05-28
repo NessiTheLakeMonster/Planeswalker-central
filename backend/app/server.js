@@ -12,6 +12,8 @@ class Server {
         this.usuariosPath = '/api/usuarios';
         this.cartasPath = '/api/cartas';
         this.tiendaPath = '/api/tienda';
+        this.mazosPath = '/api/mazos';
+        this.planificadorPath = '/api/planificador';
 
         //Middlewares
         this.middlewares();
@@ -30,6 +32,8 @@ class Server {
         this.app.use(this.usuariosPath, require('../routes/usuarioRoutes'));
         this.app.use(this.cartasPath, require('../routes/cartasRoutes'));
         this.app.use(this.tiendaPath, require('../routes/tiendaRoutes'));
+        this.app.use(this.mazosPath, require('../routes/mazosRoutes'));
+        this.app.use(this.planificadorPath, require('../routes/planificadorRoutes'));
     }
 
     listen() {

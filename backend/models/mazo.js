@@ -27,7 +27,8 @@ module.exports = (sequelize, DataTypes) => {
   mazo.init({
     nombre: DataTypes.STRING,
     activo: DataTypes.INTEGER,
-    id_usuario: DataTypes.INTEGER
+    id_usuario: DataTypes.INTEGER,
+    formato: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Mazo',
