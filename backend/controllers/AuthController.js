@@ -29,16 +29,12 @@ const login = async (req, res = response) => {
     const conxRol = new ConexionRolAsignado();
     const usuario = await conx.loginUsuario(req.body.email, req.body.password);
 
-    console.log(usuario, req.body.email, req.body.password);
-
     if (!usuario) {
         return res.status(400).json({
             ok: false,
             msg: 'Usuario o contraseña incorrectos'
         });
     }
-
-    console.log(res);
 
     const roles = await conxRol.getRolesUsuario(usuario.id);
     const token = await generarJWT(usuario.id, roles, usuario.nombre);

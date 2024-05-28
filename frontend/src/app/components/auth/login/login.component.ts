@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit {
 
   btnLogin() {
     this.mostrarAlerta = true;
+    sessionStorage.clear();
     
     let usuario: UsuarioLogin = {
       email: this.loginForm.value.email ?? '',
@@ -60,7 +61,6 @@ export class LoginComponent implements OnInit {
           /* this.router.navigate(['/home']); */
           this.tipoAlerta = 'success';
           this.mensajeAlerta = 'Login exitoso';
-          console.log('ola');
         } 
         console.log(respuesta);
       },

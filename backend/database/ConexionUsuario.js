@@ -67,13 +67,7 @@ class ConexionUsuario {
                 resultado = null;
             }
 
-            console.log(resultado);
-
             let passwdCorrecta = await bcrypt.compare(password, resultado.password);
-            
-            console.log(passwdCorrecta);
-            console.log(password);
-            console.log(resultado.password);
 
             if (!passwdCorrecta) {
                 resultado = null;
