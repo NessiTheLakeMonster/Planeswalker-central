@@ -85,7 +85,9 @@ const recomendacionMazo = async (req, res = response) => {
         while (cartasObtenidas.length < numCartasPorTipo[tipo]) {
 
             if (tipo === 'Creature') {
-                const criaturas = await addCreatureCards(conxPlanificador, cartasObtenidas, numCartasPorTipo['Creature']);
+                const criaturas = await addCreatureCards(conxPlanificador, cartasObtenidas, numCartasPorTipo[tipo]);
+
+                console.log(numCartasPorTipo[tipo]);
 
                 for (const criatura of criaturas) {
                     if (formatoLegal(req.body.formato, criatura) && checkearColor(criatura, req.body.colores)) {
@@ -100,7 +102,7 @@ const recomendacionMazo = async (req, res = response) => {
                 }
 
             } else {
-                const cartasPorTipo = await conxPlanificador.getCartasByType(100, tipo);
+                const cartasPorTipo = await conxPlanificador.getCartasByType(800, tipo);
 
                 for (const carta of cartasPorTipo) {
                     if (formatoLegal(req.body.formato, carta) && checkearColor(carta, req.body.colores)) {
@@ -162,7 +164,7 @@ function checkearColor(carta, colores) {
 
 const addCreatureCards = async (conxPlanificador, cartas, maxCartas) => {
 
-    const randomCriaturas = await conxPlanificador.getCartasByType(100, 'Creature');
+    const randomCriaturas = await conxPlanificador.getCartasByType(800, 'Creature');
 
     const cmcRequisitos = [
         { cmc: 1, min: 0, max: 2 },

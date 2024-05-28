@@ -1,4 +1,5 @@
 export interface UsuarioSessionStorage {
+    uid: number;
     usuario: Usuario;
     token: string;
     roles: Usuario[];
