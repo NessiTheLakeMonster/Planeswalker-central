@@ -2,31 +2,6 @@ const { response } = require('express')
 const ConexionPlanificadorMazos = require('../database/ConexionPlanificadorMazos')
 const ConexionCartas = require('../database/ConexionCartas');
 
-const checkCartaLegalFormat = async (req, res = response) => {
-    let conx = new ConexionPlanificadorMazos();
-
-    try {
-        let resultado = await conx.checkCartaLegalFormat(req.body.idCartaAPI, req.body.formato);
-
-        if (resultado) {
-            res.json({
-                ok: true,
-                resultado
-            });
-        } else {
-            res.status(404).json({
-                ok: false,
-                error: "Carta no legal en formato"
-            });
-        }
-    } catch (error) {
-        res.status(500).json({
-            ok: false,
-            error
-        });
-    }
-}
-
 const getCartasPorTipo = async (req, res = response) => {
     let conx = new ConexionPlanificadorMazos();
 
@@ -88,6 +63,7 @@ const recomendacionMazo = async (req, res = response) => {
 
     let numCartasPorTipo;
     let longitudMazo;
+    let legal = false;
 
     // Se genera un mazo aleatorio que cumpla con los requisitos establecidos
     do {
@@ -107,32 +83,41 @@ const recomendacionMazo = async (req, res = response) => {
     // Se añaden las cartas al mazo
     for (const tipo in numCartasPorTipo) {
         const cartasDisponibles = await conxPlanificador.getCartasByType(100, tipo);
+
+        // Se verifica que las cartas sean legales en el formato seleccionado
+        legal = cartasDisponibles.every(carta => formatoLegal(req.body.formato, carta));
+
         const numCartasAñadir = Math.min(numCartasPorTipo[tipo], cartasDisponibles.length);
+
+        if (tipo === 'Creature') {
+            await addCreatureCards(conxPlanificador, cartas, numCartasAñadir);
+        }
+
         cartas.push(...cartasDisponibles.slice(0, numCartasAñadir));
     }
 
     console.log(cartas.length);
-
 
     res.json({
         cartas: cartas
     });
 };
 
-
-checkMazoLleno = (mazoLenght, cartas) => {
-    let mazoLleno = false;
-
-    if (mazoLenght === cartas.length) {
-        mazoLleno = true;
+function formatoLegal(formato, carta) {
+    let legal = false;
+    for (let i = 0; i < carta.legalities.length; i++) {
+        if (carta.legalities[i].format === formato && carta.legalities[i].legality === 'Legal') {
+            carta.legalities = carta.legalities[i];
+            legal = true;
+            break;
+        }
     }
-
-    return mazoLleno;
+    return legal;
 }
 
 const addCreatureCards = async (conxPlanificador, cartas, maxCartas) => {
 
-    const randomCriaturas = await conxPlanificador.getCartasByType(100, 'Creature'); // obtener más de 20 para tener de dónde elegir
+    const randomCriaturas = await conxPlanificador.getCartasByType(100, 'Creature');
 
     // Definir los requisitos de CMC
     const cmcRequisitos = [
@@ -163,7 +148,7 @@ const addCreatureCards = async (conxPlanificador, cartas, maxCartas) => {
 
     // Algoritmo realizado con backtracking
     const rellenarCartasCriatura = (idRequisitos, currentCount, currentCartas) => {
-        if (currentCount > maxCartas) return false; // Si excede 20 cartas, no es una solución válida
+        if (currentCount > maxCartas) return false; // Si excede el número máximo de cartas se descarta
         if (idRequisitos === cmcRequisitos.length) {
             if (currentCount === maxCartas) {
                 resultado.push(...currentCartas);
@@ -191,7 +176,6 @@ const addCreatureCards = async (conxPlanificador, cartas, maxCartas) => {
 };
 
 module.exports = {
-    checkCartaLegalFormat,
     getCartasPorTipo,
     recomendacionMazo
 }
