@@ -53,9 +53,7 @@ const recomendacionMazo = async (req, res = response) => {
         requisitos = [
             { tipo: 'Land', min: 24, max: 24 },
             { tipo: 'Creature', min: 20, max: 24 },
-            /* { tipo: 'Sorcery', min: 4, max: 8 }, */
             { tipo: 'Instant', min: 4, max: 8 },
-            /* { tipo: 'Enchantment', min: 2, max: 4 }, */
             { tipo: 'Artifact', min: 2, max: 4 },
             { tipo: 'Planeswalker', min: 1, max: 2 }
         ];
@@ -87,7 +85,7 @@ const recomendacionMazo = async (req, res = response) => {
         while (cartasObtenidas.length < numCartasPorTipo[tipo]) {
 
             if (tipo === 'Creature') {
-                const criaturas = await addCreatureCards(conxPlanificador, cartasObtenidas, numCartasPorTipo[tipo]);
+                const criaturas = await addCreatureCards(conxPlanificador, cartasObtenidas, numCartasPorTipo['Creature']);
 
                 for (const criatura of criaturas) {
                     if (formatoLegal(req.body.formato, criatura) && checkearColor(criatura, req.body.colores)) {
@@ -96,13 +94,18 @@ const recomendacionMazo = async (req, res = response) => {
                     }
                 }
 
+                if (req.body.formato === 'Commander') {
+                    // Se quita una carta
+                    cartasObtenidas.pop();
+                }
+
             } else {
                 const cartasPorTipo = await conxPlanificador.getCartasByType(100, tipo);
 
                 for (const carta of cartasPorTipo) {
                     if (formatoLegal(req.body.formato, carta) && checkearColor(carta, req.body.colores)) {
                         cartasObtenidas.push(carta);
-                        if (cartasObtenidas.length >= numCartasPorTipo[tipo]) break;
+                        if (cartasObtenidas.length >= numCartasPorTipo[tipo]) break; // Se sale del bucle en cuanto se obtienen todas las cartas necesarias
                     }
 
                 }
