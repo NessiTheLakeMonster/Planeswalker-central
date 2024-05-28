@@ -4,6 +4,31 @@ const conx = new Conexion();
 const mtg = require('mtgsdk')
 
 class ConexionPlanificadorMazos {
+    checkCartaLegalFormat = async (idCartaAPI, formato) => {
+        let resultado = 0;
+
+        try {
+            resultado = await mtg.card.find(idCartaAPI);
+
+            for (let i = 0; i < resultado.card.legalities.length; i++) {
+                if (resultado.card.legalities[i].format === formato && resultado.card.legalities[i].legality === 'Legal') {
+                    resultado.card.legalities = resultado.card.legalities[i];
+                    break;
+                }
+            }
+
+            if (resultado.card.legalities.format === formato && resultado.card.legalities.legality === 'Legal') {
+                resultado = true;
+            } else {
+                resultado = false;
+            }
+
+        } catch (error) {
+            resultado = null;
+        }
+
+        return resultado;
+    }
     filterbyColor = async (color) => {
         let resultado = 0;
 

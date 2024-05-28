@@ -6,7 +6,7 @@ const getCartasPorTipo = async (req, res = response) => {
     let conx = new ConexionPlanificadorMazos();
 
     try {
-        let resultado = await conx.getCartasByType(2, req.body.tipo);
+        let resultado = await conx.getCartasByType(2, req.body.tipo, req.body.formato);
 
         if (resultado) {
             res.json({
@@ -53,9 +53,9 @@ const recomendacionMazo = async (req, res = response) => {
         requisitos = [
             { tipo: 'Land', min: 24, max: 24 },
             { tipo: 'Creature', min: 20, max: 24 },
-            { tipo: 'Sorcery', min: 4, max: 8 },
+            /* { tipo: 'Sorcery', min: 4, max: 8 }, */
             { tipo: 'Instant', min: 4, max: 8 },
-            { tipo: 'Enchantment', min: 2, max: 4 },
+            /* { tipo: 'Enchantment', min: 2, max: 4 }, */
             { tipo: 'Artifact', min: 2, max: 4 },
             { tipo: 'Planeswalker', min: 1, max: 2 }
         ];
@@ -63,7 +63,6 @@ const recomendacionMazo = async (req, res = response) => {
 
     let numCartasPorTipo;
     let longitudMazo;
-    let legal = false;
 
     // Se genera un mazo aleatorio que cumpla con los requisitos establecidos
     do {
@@ -79,24 +78,43 @@ const recomendacionMazo = async (req, res = response) => {
     } while (longitudMazo !== mazoLength);
 
     const cartas = [];
+    const tipos = Object.keys(numCartasPorTipo);
 
-    // Se añaden las cartas al mazo
-    for (const tipo in numCartasPorTipo) {
-        const cartasDisponibles = await conxPlanificador.getCartasByType(100, tipo);
+    for (const tipo of tipos) {
+        console.log(tipo);
 
-        // Se verifica que las cartas sean legales en el formato seleccionado
-        legal = cartasDisponibles.every(carta => formatoLegal(req.body.formato, carta));
+        let cartasObtenidas = [];
+        while (cartasObtenidas.length < numCartasPorTipo[tipo]) {
 
-        const numCartasAñadir = Math.min(numCartasPorTipo[tipo], cartasDisponibles.length);
+            if (tipo === 'Creature') {
+                const criaturas = await addCreatureCards(conxPlanificador, cartasObtenidas, numCartasPorTipo[tipo]);
 
-        if (tipo === 'Creature') {
-            await addCreatureCards(conxPlanificador, cartas, numCartasAñadir);
+                for (const criatura of criaturas) {
+                    if (formatoLegal(req.body.formato, criatura) && checkearColor(criatura, req.body.colores)) {
+                        cartasObtenidas.push(criatura);
+                        if (cartasObtenidas.length >= numCartasPorTipo[tipo]) break;
+                    }
+                }
+
+            } else {
+                const cartasPorTipo = await conxPlanificador.getCartasByType(100, tipo);
+
+                for (const carta of cartasPorTipo) {
+                    if (formatoLegal(req.body.formato, carta) && checkearColor(carta, req.body.colores)) {
+                        cartasObtenidas.push(carta);
+                        if (cartasObtenidas.length >= numCartasPorTipo[tipo]) break;
+                    }
+
+                }
+            }
+
+            console.log(cartasObtenidas.length);
+            console.log(numCartasPorTipo[tipo]);
         }
-
-        cartas.push(...cartasDisponibles.slice(0, numCartasAñadir));
+        cartas.push(...cartasObtenidas);
     }
 
-    console.log(cartas.length);
+    console.log(cartas.length)
 
     res.json({
         cartas: cartas
@@ -105,21 +123,44 @@ const recomendacionMazo = async (req, res = response) => {
 
 function formatoLegal(formato, carta) {
     let legal = false;
-    for (let i = 0; i < carta.legalities.length; i++) {
-        if (carta.legalities[i].format === formato && carta.legalities[i].legality === 'Legal') {
-            carta.legalities = carta.legalities[i];
-            legal = true;
-            break;
+
+    // Hay cartas que no tienen la propiedad legalities
+    if (!carta.legalities) {
+        legal = true;
+    } else {
+        for (let i = 0; i < carta.legalities.length; i++) {
+            if (carta.legalities[i].format === formato && carta.legalities[i].legality === 'Legal') {
+                carta.legalities = carta.legalities[i];
+                legal = true;
+            }
         }
     }
+
     return legal;
+}
+
+function checkearColor(carta, colores) {
+    let color = false;
+
+    // Hay cartas que no tienen la propiedad colorIdentity
+    if (!carta.colorIdentity) {
+        color = true;
+    } else {
+        for (let i = 0; i < carta.colorIdentity.length; i++) {
+            if (carta.colorIdentity[i] === colores[0] || carta.colorIdentity[i] === colores[1]) {
+                carta.colorIdentity = carta.colorIdentity[i];
+                color = true;
+            }
+        }
+    }
+
+    return color;
 }
 
 const addCreatureCards = async (conxPlanificador, cartas, maxCartas) => {
 
     const randomCriaturas = await conxPlanificador.getCartasByType(100, 'Creature');
 
-    // Definir los requisitos de CMC
     const cmcRequisitos = [
         { cmc: 1, min: 0, max: 2 },
         { cmc: 2, min: 4, max: 6 },
@@ -173,6 +214,8 @@ const addCreatureCards = async (conxPlanificador, cartas, maxCartas) => {
 
     rellenarCartasCriatura(0, 0, []);
     cartas.push(...resultado);
+
+    return resultado;
 };
 
 module.exports = {
