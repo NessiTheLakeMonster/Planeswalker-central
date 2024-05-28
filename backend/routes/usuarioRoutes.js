@@ -4,4 +4,6 @@ const router = Router()
 
 router.get('/', UsuarioController.getUsuarios)
 
+router.get('/:id', UsuarioController.getRolesUsuario)
+
 module.exports = router

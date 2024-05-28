@@ -1,6 +1,6 @@
 const Conexion = require('./Conexion');
 const model = require('../models/index');
-const bycrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 const { Sequelize } = require('sequelize');
 const conx = new Conexion();
 
@@ -27,7 +27,7 @@ class ConexionUsuario {
     registroUsuario = async (usuario) => {
         conx.conectar();
         let resultado = 0;
-        usuario.password = await bycrypt.hash(usuario.password, 10);
+        usuario.password = await bcrypt.hash(usuario.password, 10);
         usuario.activo = 0;
         usuario.puntos = 0;
         usuario.foto_perfil = 'foto_perfil_defecto.jpg';
@@ -41,7 +41,7 @@ class ConexionUsuario {
                 id_usuario: newUsuario.id
             });
 
-            resultado = 1;
+            resultado = newUsuario;
         } catch (error) {
             resultado = null;
         } finally {
@@ -64,12 +64,13 @@ class ConexionUsuario {
             });
 
             if (!resultado) {
-                return null;
+                resultado = null;
             }
 
-            let passwdCorrecta = await bycrypt.compare(password, resultado.password);
+            let passwdCorrecta = await bcrypt.compare(password, resultado.password);
+
             if (!passwdCorrecta) {
-                return null;
+                resultado = null;
             }
         } catch (error) {
             resultado = null;

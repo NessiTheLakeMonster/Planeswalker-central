@@ -1,17 +1,12 @@
 const { response } = require('express')
 const ConexionUsuario = require('../database/ConexionUsuario')
-const ConexionRol = require('../database/ConexionRol')
+const ConexionRolAsignado = require('../database/ConexionRolAsignado')
 const { generarJWT } = require('../helpers/generate_jwt');
 const bcrypt = require('bcrypt');
-
-const cifrarPasswd = async (password) => {
-    return bcrypt.hash(password, 10);
-}
 
 const registro = async (req, res = response) => {
     const conx = new ConexionUsuario();
     const body = req.body;
-    body.password = await cifrarPasswd(body.password);
 
     conx.registroUsuario(body)
         .then(usuario => {
@@ -31,6 +26,7 @@ const registro = async (req, res = response) => {
 
 const login = async (req, res = response) => {
     const conx = new ConexionUsuario();
+    const conxRol = new ConexionRolAsignado();
     const usuario = await conx.loginUsuario(req.body.email, req.body.password);
 
     if (!usuario) {
@@ -40,7 +36,9 @@ const login = async (req, res = response) => {
         });
     }
 
-    const token = await generarJWT(usuario.id, usuario.nombre);
+    const roles = await conxRol.getRolesUsuario(usuario.id);
+    const token = await generarJWT(usuario.id, roles, usuario.nombre);
+
     res.status(200).json({
         ok: true,
         "usuario": usuario,
