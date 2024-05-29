@@ -17,6 +17,11 @@
             <div>
                 <button class="btn btn-primary m-3" (click)="btnBuscarCarta()">Buscar</button>
             </div>
+
+            @if (mostrarAlerta) {
+                <ngb-alert class="alerta-flotante m-4 text-center" [type]=tipoAlerta>{{ mensajeAlerta }}</ngb-alert>
+            }
+            
         </div>
     </form>
 
@@ -32,7 +37,7 @@
         <div class="row">
             @for (carta of cartas; track carta.id) {
                 <div class="col-sm-2">
-                    <div class="card mb-2">
+                    <div class="card mb-3">
                         
                         @if (carta.foto_es) {
                             <img class="card-img-top p-2" src="{{ carta.foto_es }}" alt="foto de la carta buscada">
@@ -42,9 +47,21 @@
                             <img class="card-img-top p-2" src="../../../../assets/dorso_magic.png" alt="foto de la carta buscada">
                         }
                         
-                        <div class="card-body d-flex justify-content-center align-items-center">
-                            <button class="btn btn-primary" (click)="elegirCarta(carta.id)">Seleccionar</button>
+                        <div class="card-body d-flex flex-column flex-md-row justify-content-center align-items-center">
+                            <button class="btn btn-primary mb-2 mb-md-0 me-md-2" (click)="elegirCarta(carta.id)">Seleccionar</button>
+
+                            <button class="btn btn-outline-secondary" 
+                            [ngbPopover]="popContent" 
+                            [popoverTitle]="popTitle"
+                            placement="bottom">
+                            Ver</button>
                         </div>
+
+                        <ng-template #popContent
+                            > <b>Nombre en español :</b> {{carta.nombre_es}}
+                            <br> <b>Nombre en inglés :</b> {{ carta.nombre_en }}</ng-template
+                        >
+                        <ng-template #popTitle><b>Especificaciones de la carta</b></ng-template>
                     </div>
                 </div>
             }
@@ -52,4 +69,33 @@
         </div>
     
     }
+
+    <div class="position-fixed bottom-0 end-0 p-3">
+        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#mazoModal">
+            Ver mazo
+        </button>
+    </div>
+
+    <div class="modal fade" id="mazoModal" tabindex="-1" aria-labelledby="mazoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mazoModalLabel">Mazo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @for (carta of mazo; track carta) {
+                        <div>
+                            {{ carta.nombre_es }} - {{ carta.nombre_en }}
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Terminar mazo</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
