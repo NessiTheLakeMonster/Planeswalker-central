@@ -124,6 +124,8 @@ const recomendacionMazo = async (req, res = response) => {
     res.json({
         cartas: cartas
     });
+
+    return cartas;
 };
 
 function formatoLegal(formato, carta) {
@@ -152,7 +154,7 @@ function checkearColor(carta, colores) {
         color = true;
     } else {
         for (let i = 0; i < carta.colorIdentity.length; i++) {
-            if (carta.colorIdentity[i] === colores[0] || carta.colorIdentity[i] === colores[1]) {
+            if (carta.colorIdentity[i] === colores[0] || carta.colorIdentity[i] === colores[1] || carta.colorIdentity[i] === colores[2]) {
                 carta.colorIdentity = carta.colorIdentity[i];
                 color = true;
             }
@@ -223,7 +225,100 @@ const addCreatureCards = async (conxPlanificador, cartas, maxCartas) => {
     return resultado;
 };
 
+const crearMazo = async (req, res = response) => {
+    const conx = new ConexionPlanificadorMazos();
+
+    try {
+        const mazoId = await conx.postRecomendacionMazo(
+            {
+                nombre: req.body.nombre,
+                formato: req.body.formato,
+                activo: 0
+            }
+        );
+
+        res.json({
+            ok: true,
+            resultado: {
+                mazoId: mazoId
+            }
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            error
+        });
+        console.log(error);
+    }
+};
+
+const agregarCartaAMazo = async (req, res = response) => {
+    const conxCartas = new ConexionCartas();
+    const conx = new ConexionPlanificadorMazos();
+
+    try {
+        const mazoId = req.body.mazoId;
+        const carta = req.body.carta;
+        let cartaId;
+
+        if (carta.multiverseid) {
+            cartaId = await conxCartas.getCartaId(carta);
+
+            if (!cartaId) {
+                cartaId = await conxCartas.guardarCarta(
+                    {
+                        id_api: carta?.multiverseid || null,
+                        nombre_en: carta?.name || null,
+                        nombre_es: carta?.foreignNames?.find(fn => fn.language === "Spanish")?.name || null,
+                        foto_en: carta?.imageUrl || null,
+                        foto_es: carta?.foreignNames?.find(fn => fn.language === "Spanish")?.imageUrl || null
+                    }
+                );
+            } else {
+                cartaId = await conxCartas.getCartaByIdLocal(carta.multiverseid);
+            }
+        } else {
+            // Hay cartas que no tienen multiverseid y se buscan por id
+            
+            cartaId = await conxCartas.getCartaNoId(carta);
+
+            if (!cartaId) {
+
+                cartaId = await conxCartas.guardarCarta(
+                    {
+                        id_api: carta?.id || null,
+                        nombre_en: carta?.name || null,
+                        nombre_es: carta?.foreignNames?.find(fn => fn.language === "Spanish")?.name || null,
+                        foto_en: carta?.imageUrl || null,
+                        foto_es: carta?.foreignNames?.find(fn => fn.language === "Spanish")?.imageUrl || null
+                    }
+                );
+            } else {
+                cartaId = await conxCartas.getCartaByIdLocal(carta.id);
+            }
+        }
+
+        await conx.addCartasMazo(mazoId, cartaId.id);
+
+        res.json({
+            ok: true,
+            resultado: {
+                mazoId: mazoId,
+                cartaId: cartaId
+            }
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            error
+        });
+        console.log(error);
+    }
+};
+
 module.exports = {
     getCartasPorTipo,
-    recomendacionMazo
+    recomendacionMazo,
+    crearMazo,
+    agregarCartaAMazo
 }

@@ -15,4 +15,12 @@ export class RecomendadorServiceService {
   peticionRecomendador(body: FormRecomendador): Observable<HttpResponse<Cartas>> {
     return this.http.post<Cartas>(env.URL + 'api/planificador/recomendacion', body, { observe: 'response' as 'response' });
   }
+
+  crearMazo(body : any) : Observable<HttpResponse<any>> {
+    return this.http.post<any>(env.URL + 'api/planificador/crearMazo', body, { observe: 'response' as 'response' });
+  }
+
+  agregarCartaAMazo(body : any) : Observable<HttpResponse<any>> {
+    return this.http.post<any>(env.URL + 'api/planificador/agregarCartaAMazo', body, { observe: 'response' as 'response' });
+  }
 }

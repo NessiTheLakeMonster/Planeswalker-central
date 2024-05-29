@@ -74,9 +74,9 @@
                     <div class="card">
                         <p>{{ carta.name }}</p>
                         @if (carta.imageUrl) {
-                            <img class="card-img-top p-2" src="{{ carta.imageUrl }}" alt="foto de la carta generada">
+                            <img class="card-img-top p-2" src="{{ carta.imageUrl }}" alt="foto de la carta generada" style="width: 100%; height: auto;">
                         } @else {
-                            <img class="card-img-top" src="../../../../assets/dorso_magic.png" alt="foto de la carta generada">
+                            <img class="card-img-top p-2" src="../../../../assets/dorso_magic.png" alt="foto de la carta generada" style="width: 100%; height: auto;">
                         }
                         
                     </div>
@@ -84,5 +84,7 @@
             }
             
         </div>
+
+        <button class="btn btn-lg btn-primary" (click)="guardarMazo()">Guardar mazo</button>
     }
 </div>

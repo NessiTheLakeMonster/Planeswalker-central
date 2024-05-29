@@ -50,7 +50,7 @@ export class RecomendadorMazosComponent implements AfterViewInit {
 
         let checkedSwitches = this.colorSwitches.filter(switchElement => switchElement.nativeElement.checked);
 
-        if (checkedSwitches.length > 2) {
+        if (checkedSwitches.length > 3) {
           switchElement.nativeElement.checked = false;
         }
 
@@ -63,7 +63,10 @@ export class RecomendadorMazosComponent implements AfterViewInit {
           }
         }
 
-        if (checkedSwitches.length === 2) {
+        // Los mazos deben tener al menos 3 colores y uno de ellos ser blanco o negro
+        let whiteOrBlackSelected = this.selectedColors.includes('W') || this.selectedColors.includes('U');
+
+        if (checkedSwitches.length === 3 && whiteOrBlackSelected) {
           this.formRecomendador.controls['colores'].setErrors(null);
         } else {
           this.formRecomendador.controls['colores'].setErrors({ 'incorrect': true });
@@ -91,6 +94,49 @@ export class RecomendadorMazosComponent implements AfterViewInit {
 
         console.log(this.cartas);
         this.loading = false;
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    });
+  }
+
+  guardarMazo() {
+    const chunkSize = 10; // Cantidad de cartas por mazo
+    const cartasChunks: any[] = [];
+
+    for (let i = 0; i < this.cartas.length; i += chunkSize) {
+      cartasChunks.push(this.cartas.slice(i, i + chunkSize));
+    }
+
+    let mazo = {
+      nombre: this.formRecomendador.value.nombre,
+      formato: this.formRecomendador.value.formato,
+      id_usuario: this.id_usuario
+    }
+
+    this.RecomendadorService.crearMazo(mazo).subscribe({
+      next: (respuesta: HttpResponse<any>) => {
+        console.log(respuesta.body);
+        const mazoId = respuesta.body.resultado.mazoId.id;
+
+        cartasChunks.forEach((cartasChunk, index) => {
+          cartasChunk.forEach((carta: any) => {
+            let cartaMazo = {
+              mazoId: mazoId,
+              carta: carta
+            }
+
+            this.RecomendadorService.agregarCartaAMazo(cartaMazo).subscribe({
+              next: (respuesta: HttpResponse<any>) => {
+                console.log(respuesta);
+              },
+              error: (error: any) => {
+                console.log(error);
+              }
+            });
+          });
+        });
       },
       error: (error: any) => {
         console.log(error);
