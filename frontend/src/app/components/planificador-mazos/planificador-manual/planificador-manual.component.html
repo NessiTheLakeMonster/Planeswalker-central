@@ -2,4 +2,54 @@
     <h1 class="text-center m-5">Planificador de mazos manual</h1>
 
     <button class="btn btn-lg btn-primary" (click)="btnRecomendador()">Recomiendame un mazo</button>
+
+    <form [formGroup]="buscar">
+
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" formControlName="name" required>
+            <div class="text-danger">
+                @if (!buscar.controls.name.valid && buscar.controls.name.touched) {
+                    El nombre es obligatorio
+                }
+            </div>
+
+            <div>
+                <button class="btn btn-primary m-3" (click)="btnBuscarCarta()">Buscar</button>
+            </div>
+        </div>
+    </form>
+
+    @if (loading == true) {
+        <div class="loading-container">
+            <div class="d-flex justify-content-center align-items-center" style="height: 10vh;">
+                <div class="spinner-grow text-primary spinner-grow-lg" role="status">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+        </div>
+    } @else {
+        <div class="row">
+            @for (carta of cartas; track carta.id) {
+                <div class="col-sm-2">
+                    <div class="card mb-2">
+                        
+                        @if (carta.foto_es) {
+                            <img class="card-img-top p-2" src="{{ carta.foto_es }}" alt="foto de la carta buscada">
+                        } @else if (carta.foto_en) {
+                            <img class="card-img-top p-2" src="{{ carta.foto_en }}" alt="foto de la carta buscada">
+                        } @else {
+                            <img class="card-img-top p-2" src="../../../../assets/dorso_magic.png" alt="foto de la carta buscada">
+                        }
+                        
+                        <div class="card-body d-flex justify-content-center align-items-center">
+                            <button class="btn btn-primary" (click)="elegirCarta(carta.id)">Seleccionar</button>
+                        </div>
+                    </div>
+                </div>
+            }
+            
+        </div>
+    
+    }
 </div>

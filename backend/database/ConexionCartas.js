@@ -20,7 +20,8 @@ class ConexionCartas {
         let resultado = 0;
 
         try {
-            resultado = await mtg.card.where({ name: name, language: 'spanish' });
+            const cartas = await mtg.card.where({ name: name, language: 'spanish' });
+            resultado = cartas.filter(carta => carta.multiverseid !== undefined);
         } catch (error) {
             resultado = null;
         }
