@@ -63,7 +63,7 @@ export class RecomendadorMazosComponent implements AfterViewInit {
           }
         }
 
-        if (checkedSwitches.length >= 1 && checkedSwitches.length <= 2) {
+        if (checkedSwitches.length === 2) {
           this.formRecomendador.controls['colores'].setErrors(null);
         } else {
           this.formRecomendador.controls['colores'].setErrors({ 'incorrect': true });
