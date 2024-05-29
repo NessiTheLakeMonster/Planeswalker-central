@@ -73,7 +73,12 @@
                 <div class="col-sm-3">
                     <div class="card">
                         <p>{{ carta.name }}</p>
-                        <img class="card-img-top p-2" src="{{ carta.imageUrl }}" alt="foto de la carta generada">
+                        @if (carta.imageUrl) {
+                            <img class="card-img-top p-2" src="{{ carta.imageUrl }}" alt="foto de la carta generada">
+                        } @else {
+                            <img class="card-img-top" src="../../../../assets/dorso_magic.png" alt="foto de la carta generada">
+                        }
+                        
                     </div>
                 </div>
             }
