@@ -45,7 +45,7 @@ class ConexionPlanificadorMazos {
     }
 
     getCartasByType = async (numero, tipo) => {
-        let resultado = []; 
+        let resultado = [];
 
         try {
             const cartas = await mtg.card.where({ types: tipo });
@@ -102,22 +102,20 @@ class ConexionPlanificadorMazos {
         return resultado;
     }
 
-    addCartasMazo = async (idMazo, cartas) => {
+    addCartasMazo = async (idMazo, idCarta) => {
         conx.conectar();
         let resultado = null;
 
         try {
-            for (let i = 0; i < cartas.length; i++) {
-                let carta = {
+
+            let addCarta = await model.CartasMazo.create(
+                {
                     id_mazo: idMazo,
-                    id_carta: cartas[i].id,
-                }
+                    id_carta: idCarta
+                });
 
-                let cartaGuardada = await model.MazoCarta.create(carta);
-
-                if (cartaGuardada) {
-                    resultado = cartaGuardada;
-                }
+            if (addCarta) {
+                resultado = addCarta;
             }
 
         } catch (error) {

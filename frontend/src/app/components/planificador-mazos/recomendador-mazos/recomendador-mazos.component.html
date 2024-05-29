@@ -1,0 +1,90 @@
+<div class="container">
+    <h1 class="text-center m-5">Dejanos a nosotros armar un mazo a tu medida</h1>
+
+    <form [formGroup]="formRecomendador">
+
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" formControlName="nombre" required>
+            <div class="text-danger">
+                @if (!formRecomendador.controls.nombre.valid && formRecomendador.controls.nombre.touched) {
+                    El nombre es obligatorio
+                }
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="formato" class="form-label">Formato</label>
+            <select class="form-select" id="formato" formControlName="formato" required>
+                <option value="Standard">Standard</option>
+                <option value="Commander">Commander</option>
+            </select>
+            <div class="text-danger">
+                @if (!formRecomendador.controls.formato.valid && formRecomendador.controls.formato.touched) {
+                    El formato es obligatorio
+                }
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="colores" class="form-label">Colores</label>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input color-switch" type="checkbox" id="colorBlanco" value="W" #colorSwitch>
+                <label class="form-check-label" for="colorBlanco">Blanco</label>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input color-switch" type="checkbox" id="colorAzul" value="B" #colorSwitch>
+                <label class="form-check-label" for="colorAzul">Azul</label>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input color-switch" type="checkbox" id="colorRojo" value="R" #colorSwitch>
+                <label class="form-check-label" for="colorRojo">Rojo</label>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input color-switch" type="checkbox" id="colorVerde" value="G" #colorSwitch>
+                <label class="form-check-label" for="colorVerde">Verde</label>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input color-switch" type="checkbox" id="colorNegro" value="U" #colorSwitch>
+                <label class="form-check-label" for="colorNegro">Negro</label>
+            </div>
+
+        </div>
+
+
+        <div>
+            <button class="btn btn-primary m-3" (click)="btnRecomendar()" [disabled]="!formRecomendador.valid">Buscar</button>
+        </div>
+        
+    </form>
+
+    @if (loading == true) {
+        <div class="loading-container">
+            <div class="d-flex justify-content-center align-items-center" style="height: 10vh;">
+                <div class="spinner-grow text-primary spinner-grow-lg" role="status">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+        </div>
+    } @else {
+        <div class="row">
+            @for (carta of cartas; track carta) {
+                <div class="col-sm-3">
+                    <div class="card">
+                        <p>{{ carta.name }}</p>
+                        @if (carta.imageUrl) {
+                            <img class="card-img-top p-2" src="{{ carta.imageUrl }}" alt="foto de la carta generada" style="width: 100%; height: auto;">
+                        } @else {
+                            <img class="card-img-top p-2" src="../../../../assets/dorso_magic.png" alt="foto de la carta generada" style="width: 100%; height: auto;">
+                        }
+                        
+                    </div>
+                </div>
+            }
+            
+        </div>
+
+        <button class="btn btn-lg btn-primary" (click)="guardarMazo()">Guardar mazo</button>
+    }
+</div>

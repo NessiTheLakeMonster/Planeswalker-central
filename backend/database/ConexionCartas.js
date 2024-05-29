@@ -48,6 +48,46 @@ class ConexionCartas {
         return resultado;
     }
 
+    getCartaId = async (carta) => {
+        conx.conectar();
+        let resultado = null;
+
+        try {
+            let cartaGuardada = await model.Carta.findOne({ where: { id_api: carta.multiverseid } });
+
+            if (cartaGuardada) {
+                resultado = cartaGuardada;
+            }
+
+        } catch (error) {
+            resultado = null;
+        } finally {
+            conx.desconectar();
+        }
+
+        return resultado;
+    }
+
+    getCartaNoId = async (carta) => {
+        conx.conectar();
+        let resultado = null;
+
+        try {
+            let cartaGuardada = await model.Carta.findOne({ where: { id_api: carta.id } });
+
+            if (cartaGuardada) {
+                resultado = cartaGuardada;
+            }
+
+        } catch (error) {
+            resultado = null;
+        } finally {
+            conx.desconectar();
+        }
+
+        return resultado;
+    }
+
     checkCartaRepetida = async (id) => {
         conx.conectar();
         let resultado = null;
