@@ -114,13 +114,13 @@
                             @for (carta of mazo; track carta) {
                                 <tr>
 
-                                    <td>{{ carta.nombre_en }}</td>
+                                    <td> {{carta.id}} {{ carta.nombre_en }}</td>
                                     <td>{{ carta.nombre_es }}</td>
 
                                     <td>{{ carta.tipo }}</td>
 
                                     <td class="text-center">
-                                        <button class="btn btn-danger">
+                                        <button class="btn btn-danger" (click)="quitarCartaMazo(carta.id)">
                                             <i class="bi bi-trash3"></i>
                                         </button>
                                     </td>

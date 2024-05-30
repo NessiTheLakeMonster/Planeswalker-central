@@ -89,6 +89,8 @@ export class PlanificadorManualComponent implements OnInit {
     this.cartasService.getCartasByNombre(cartaBuscar).subscribe({
       next: (respuesta: HttpResponse<any>) => {
         this.cartas = respuesta.body.cartas;
+
+        console.log(this.cartas); 
         this.loading = false;
       },
       error: (error: any) => {
@@ -134,6 +136,16 @@ export class PlanificadorManualComponent implements OnInit {
         );
       }
     }
+  }
+
+  quitarCartaMazo(id: string) {
+    const index = this.mazo.findIndex((carta: any) => carta.id === id);
+
+    if (index !== -1) {
+      this.mazo.splice(index, 1);
+    }
+
+    sessionStorage.setItem('mazo', JSON.stringify(this.mazo));
   }
 
   onMazoTypeChange(event: Event) {
@@ -208,11 +220,19 @@ export class PlanificadorManualComponent implements OnInit {
           });
         });
 
+        this.mostrarAlerta = true;
+        this.tipoAlerta = 'success';
+        this.mensajeAlerta = 'Mazo guardado con éxito';
+
         sessionStorage.removeItem('mazo');
         sessionStorage.removeItem('mazoType');
       },
       error: (error: any) => {
         console.log(error);
+
+        this.mostrarAlerta = true;
+        this.tipoAlerta = 'danger';
+        this.mensajeAlerta = 'Error al guardar el mazo';
       }
     });
   }
