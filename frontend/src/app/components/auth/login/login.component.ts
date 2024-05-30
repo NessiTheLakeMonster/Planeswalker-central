@@ -5,6 +5,7 @@ import { UsuarioAcceso, UsuarioLogin } from '../../../interfaces/auth-interface'
 import { Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { UtilsServiceService } from '../../../services/utils/utils-service.service';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authAccess: AuthServiceService,
+    private utilsService: UtilsServiceService,
     private router: Router
   ) {}
 
@@ -35,6 +37,8 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.tipoAlerta = '';
     this.mensajeAlerta = '';
+
+    this.utilsService.clearMazoData();
   }
 
   cerrarAlerta() {

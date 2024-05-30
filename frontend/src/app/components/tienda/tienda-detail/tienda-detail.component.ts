@@ -5,6 +5,7 @@ import { ArticuloTienda } from '../../../interfaces/tienda-interface';
 import { HttpResponse } from '@angular/common/http';
 import { CartasServiceService } from '../../../services/cartas/cartas-service.service';
 import { Carta } from '../../../interfaces/cartas-interface';
+import { UtilsServiceService } from '../../../services/utils/utils-service.service';
 
 @Component({
   selector: 'app-tienda-detail',
@@ -24,7 +25,8 @@ export class TiendaDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private tiendaService: TiendaServiceService,
-    private cartasService: CartasServiceService
+    private cartasService: CartasServiceService,
+    private utilsService: UtilsServiceService
   ) { }
 
   ngOnInit(): void {
@@ -33,6 +35,8 @@ export class TiendaDetailComponent implements OnInit {
     });
 
     this.getCarta(this.idArticulo);
+
+    this.utilsService.clearMazoData();
   }
 
   getCarta(id: string) {

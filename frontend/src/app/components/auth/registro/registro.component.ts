@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { UsuarioAcceso, UsuarioRegistro } from '../../../interfaces/auth-interface';
 import { HttpResponse } from '@angular/common/http';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { UtilsServiceService } from '../../../services/utils/utils-service.service';
 
 @Component({
   selector: 'app-registro',
@@ -24,6 +25,7 @@ export class RegistroComponent implements OnInit {
 
   constructor(
     private authAccess: AuthServiceService,
+    private utilesService: UtilsServiceService,
     private router: Router
   ) { }
 
@@ -38,6 +40,8 @@ export class RegistroComponent implements OnInit {
   ngOnInit(): void {
     this.tipoAlerta = '';
     this.mensajeAlerta = '';
+
+    this.utilesService.clearMazoData();
   }
 
   cerrarAlerta() {

@@ -44,6 +44,8 @@ export class RecomendadorMazosComponent implements AfterViewInit {
       this.id_usuario = usuario?.uid ?? 0;
     }
 
+    this.utilesService.clearMazoData();
+
     this.colorSwitches.forEach((switchElement, index) => {
       switchElement.nativeElement.addEventListener('change', () => {
 

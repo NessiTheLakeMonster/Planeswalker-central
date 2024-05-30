@@ -3,6 +3,7 @@ import { TiendaServiceService } from '../../../services/tienda/tienda-service.se
 import { ArticuloTienda, Tienda } from '../../../interfaces/tienda-interface';
 import { HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { UtilsServiceService } from '../../../services/utils/utils-service.service';
 
 @Component({
   selector: 'app-tienda-home',
@@ -16,11 +17,14 @@ export class TiendaHomeComponent implements OnInit {
 
   constructor(
     private tiendaService: TiendaServiceService,
+    private utilesService: UtilsServiceService,
     private router: Router
     ) { }
 
   ngOnInit(): void {
     this.getTienda();
+
+    this.utilesService.clearMazoData();
   }
 
   getTienda() {
