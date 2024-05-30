@@ -5,3 +5,7 @@
     z-index: 9999;
     width: 15%;
 }
+
+.input-buscar {
+    width: 400px !important;
+}

@@ -1,22 +1,23 @@
 <div class="container">
     <h1 class="text-center p-5">Pon en venta tu carta</h1>
 
-    <form [formGroup]="buscar">
+    <div class="d-flex justify-content-center align-items-center">
+        <form [formGroup]="buscar">
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Busca aquí la carta que quieres añadir</label>
+                <div class="d-flex">
+                    <input type="text" class="form-control input-buscar" id="nombre" placeholder="Narset, maestra iluminada" formControlName="name" required >
+                    <button class="btn btn-primary m-3" (click)="btnBuscarCarta()"><i class="bi bi-search"></i></button>
+                </div>
+                <div class="text-danger">
+                    @if (!buscar.controls.name.valid && buscar.controls.name.touched) {
+                        El nombre es obligatorio
+                    }
+                </div>
 
-        <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" formControlName="name" required>
-            <div class="text-danger">
-                @if (!buscar.controls.name.valid && buscar.controls.name.touched) {
-                    El nombre es obligatorio
-                }
             </div>
-
-            <div>
-                <button class="btn btn-primary m-3" (click)="btnBuscarCarta()">Buscar</button>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 
     @if (loading == true) {
         <div class="loading-container">
