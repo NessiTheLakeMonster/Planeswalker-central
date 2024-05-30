@@ -1,5 +1,140 @@
 <div class="container">
     <h1 class="text-center m-5">Planificador de mazos manual</h1>
 
-    <button class="btn btn-lg btn-primary" (click)="btnRecomendador()">Recomiendame un mazo</button>
+    <div class="d-flex justify-content-center align-items-center mb-5">
+        <div class="form-check me-3">
+            <input class="form-check-input" type="radio" name="mazoType" id="mazoCommander" value="Commander" (change)="onMazoTypeChange($event)">
+            <label class="form-check-label" for="mazoCommander">
+                Mazo Commander
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="mazoType" id="mazoStandard" value="Standard" (change)="onMazoTypeChange($event)">
+            <label class="form-check-label" for="mazoStandard">
+                Mazo Standard
+            </label>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center">
+        <form [formGroup]="buscar">
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Busca aquí la carta que quieres añadir</label>
+                <div class="d-flex">
+                    <input type="text" class="form-control input-buscar" id="nombre" placeholder="Narset, maestra iluminada" formControlName="name" required >
+                    <button class="btn btn-primary m-3" (click)="btnBuscarCarta()" [disabled]="!isMazoTypeSelected()"><i class="bi bi-search"></i></button>
+                </div>
+                <div class="text-danger">
+                    @if (!buscar.controls.name.valid && buscar.controls.name.touched) {
+                        El nombre es obligatorio
+                    }
+                </div>
+
+                @if (mostrarAlerta) {
+                    <ngb-alert class="alerta-flotante m-4 text-center" [type]=tipoAlerta>{{ mensajeAlerta }}</ngb-alert>
+                }
+            </div>
+        </form>
+    </div>
+
+
+    @if (loading == true) {
+        <div class="loading-container">
+            <div class="d-flex justify-content-center align-items-center" style="height: 10vh;">
+                <div class="spinner-grow text-primary spinner-grow-lg" role="status">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+        </div>
+    } @else {
+        <div class="row">
+            @for (carta of cartas; track carta.id) {
+                <div class="col-sm-2">
+                    <div class="card mb-3">
+                        
+                        @if (carta.foto_es) {
+                            <img class="card-img-top p-2" src="{{ carta.foto_es }}" alt="foto de la carta buscada">
+                        } @else if (carta.foto_en) {
+                            <img class="card-img-top p-2" src="{{ carta.foto_en }}" alt="foto de la carta buscada">
+                        } @else {
+                            <img class="card-img-top p-2" src="../../../../assets/dorso_magic.png" alt="foto de la carta buscada">
+                        }
+                        
+                        <div class="card-body d-flex flex-column flex-md-row justify-content-center align-items-center">
+                            <button class="btn btn-primary mb-2 mb-md-0 me-md-2" (click)="elegirCarta(carta.id)">Seleccionar</button>
+
+                            <button class="btn btn-outline-secondary" 
+                            [ngbPopover]="popContent" 
+                            [popoverTitle]="popTitle"
+                            placement="bottom">
+                            Ver</button>
+                        </div>
+
+                        <ng-template #popContent
+                            > <b>Nombre en español :</b> {{carta.nombre_es}}
+                            <br> <b>Nombre en inglés :</b> {{ carta.nombre_en }}</ng-template
+                        >
+                        <ng-template #popTitle><b>Especificaciones de la carta</b></ng-template>
+                    </div>
+                </div>
+            }
+            
+        </div>
+    
+    }
+
+    <div class="position-fixed bottom-0 end-0 p-3 m-5">
+        <button class="btn btn-lg btn-primary m-3" (click)="btnRecomendador()">Recomiendame un mazo</button>
+        <button type="button" class="btn btn-primary btn-lg position-relative" data-bs-toggle="modal" data-bs-target="#mazoModal">
+            Ver mazo
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{ mazo.length }}
+            </span>
+        </button>
+    </div>
+
+    <div class="modal fade" id="mazoModal" tabindex="-1" aria-labelledby="mazoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mazoModalLabel">Mazo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre en inglés</th>
+                                <th>Nombre en español</th>
+                                <th>Tipo</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (carta of mazo; track carta) {
+                                <tr>
+
+                                    <td> {{carta.id}} {{ carta.nombre_en }}</td>
+                                    <td>{{ carta.nombre_es }}</td>
+
+                                    <td>{{ carta.tipo }}</td>
+
+                                    <td class="text-center">
+                                        <button class="btn btn-danger" (click)="quitarCartaMazo(carta.id)">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="!mazoLleno()" (click)="guardarMazo()">Terminar mazo</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+

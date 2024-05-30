@@ -9,7 +9,17 @@ export class UtilsServiceService {
 
   constructor() { }
 
-  getUsuarioSession(token: string) : UsuarioSessionStorage | null{
+  getUsuarioSession(token: string): UsuarioSessionStorage | null {
     return jwtDecode(token)
+  }
+
+  clearMazoData() {
+    if (sessionStorage.getItem('mazo')) {
+      sessionStorage.removeItem('mazo');
+    }
+
+    if (sessionStorage.getItem('mazoType')) {
+      sessionStorage.removeItem('mazoType');
+    }
   }
 }

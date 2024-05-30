@@ -3,7 +3,6 @@ const PlanificadorMazosController = require('../controllers/PlanificadorMazosCon
 const router = Router();
 
 router.post('/recomendacion', PlanificadorMazosController.recomendacionMazo);
-
 router.post('/tipo', PlanificadorMazosController.getCartasPorTipo);
 
 router.post('/crearMazo', PlanificadorMazosController.crearMazo);

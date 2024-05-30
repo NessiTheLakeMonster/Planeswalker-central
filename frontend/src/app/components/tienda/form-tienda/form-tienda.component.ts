@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CartasServiceService } from '../../../services/cartas/cartas-service.service';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Carta, CartaBuscar, CartaGuardar } from '../../../interfaces/cartas-interface';
@@ -6,6 +6,7 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpResponse } from '@angular/common/http';
 import { TiendaServiceService } from '../../../services/tienda/tienda-service.service';
 import { VenderCarta } from '../../../interfaces/tienda-interface';
+import { UtilsServiceService } from '../../../services/utils/utils-service.service';
 
 @Component({
   selector: 'app-form-tienda',
@@ -18,7 +19,7 @@ import { VenderCarta } from '../../../interfaces/tienda-interface';
   templateUrl: './form-tienda.component.html',
   styleUrl: './form-tienda.component.css'
 })
-export class FormTiendaComponent {
+export class FormTiendaComponent implements OnInit {
   loading: boolean = false;
   loadingModal: boolean = false;
 
@@ -47,7 +48,19 @@ export class FormTiendaComponent {
   constructor(
     private cartasService: CartasServiceService,
     private tiendaService: TiendaServiceService,
+    private utilesService: UtilsServiceService
   ) { }
+
+  ngOnInit(): void {
+    const token = sessionStorage.getItem('token');
+
+    if (token) {
+      let usuario = this.utilesService.getUsuarioSession(token);
+      this.vender.value.id_vendedor = usuario?.uid ?? 0;
+    }
+
+    this.utilesService.clearMazoData();
+  }
 
   btnBuscarCarta() {
     let cartaBuscar: CartaBuscar = {

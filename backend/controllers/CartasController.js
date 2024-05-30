@@ -42,7 +42,8 @@ const getCartaByNombreES = async (req, res = response) => {
                     nombre_en: carta.name,
                     nombre_es: carta.foreignNames.find(fn => fn.language === "Spanish").name,
                     foto_en: carta.imageUrl,
-                    foto_es: carta.foreignNames.find(fn => fn.language === "Spanish").imageUrl
+                    foto_es: carta.foreignNames.find(fn => fn.language === "Spanish").imageUrl,
+                    tipo: carta.type,
                 })
             );
 
