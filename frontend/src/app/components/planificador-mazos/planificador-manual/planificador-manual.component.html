@@ -22,7 +22,7 @@
                 <label for="nombre" class="form-label">Busca aquí la carta que quieres añadir</label>
                 <div class="d-flex">
                     <input type="text" class="form-control input-buscar" id="nombre" placeholder="Narset, maestra iluminada" formControlName="name" required >
-                    <button class="btn btn-primary m-3" (click)="btnBuscarCarta()"><i class="bi bi-search"></i></button>
+                    <button class="btn btn-primary m-3" (click)="btnBuscarCarta()" [disabled]="!isMazoTypeSelected()"><i class="bi bi-search"></i></button>
                 </div>
                 <div class="text-danger">
                     @if (!buscar.controls.name.valid && buscar.controls.name.touched) {

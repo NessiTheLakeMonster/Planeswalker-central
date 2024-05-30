@@ -138,6 +138,16 @@ export class PlanificadorManualComponent implements OnInit {
     }
   }
 
+  isMazoTypeSelected(): boolean {
+    const mazoType = sessionStorage.getItem('mazoType');
+    
+    if (mazoType) {
+      return true;
+    } else {  
+      return false;
+    }
+  }
+
   quitarCartaMazo(id: string) {
     const index = this.mazo.findIndex((carta: any) => carta.id === id);
 
