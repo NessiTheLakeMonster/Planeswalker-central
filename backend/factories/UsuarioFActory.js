@@ -30,7 +30,7 @@ const generarUsuarios = async (cantidadUsuarios) => {
         nick: 'admin',
         password: await bcrypt.hash('admin', 10),
         puntos: 1000,
-        foto_perfil: 'foto_perfil_defecto',
+        foto_perfil: 'foto_perfil_defecto.jpg',
         activo: 0,
         createdAt: new Date(),
         updatedAt: new Date()

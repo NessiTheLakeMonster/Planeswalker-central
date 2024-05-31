@@ -42,12 +42,14 @@ body {
     z-index: 1000;
     transition: all .25s ease-in-out;
     background-color: #0B6183;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     position: fixed;
-    height: 100%;
-    left: 0;
-    top: 0;
+    left: 10px;
+    top: 10px;
+    bottom: 10px;
     z-index: 1000;
 }
 

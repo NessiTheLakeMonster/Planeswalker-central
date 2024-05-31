@@ -6,4 +6,6 @@ router.get('/', UsuarioController.getUsuarios)
 
 router.get('/:id', UsuarioController.getRolesUsuario)
 
+router.get('/user/:id', UsuarioController.getUsuarioById)
+
 module.exports = router

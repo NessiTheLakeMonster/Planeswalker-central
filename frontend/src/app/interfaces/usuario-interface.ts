@@ -21,3 +21,19 @@ export interface Rol {
 export interface RolesUsuario {
     roles: Rol[];
 }
+
+export interface UsuarioResponse {
+    ok: boolean;
+    usuario: UsuarioDetail;
+}
+
+export interface UsuarioDetail {
+    id: number;
+    nombre: string;
+    apellidos: string;
+    email: string;
+    nick: string;
+    password: string;
+    puntos: number;
+    foto_perfil: string;
+}

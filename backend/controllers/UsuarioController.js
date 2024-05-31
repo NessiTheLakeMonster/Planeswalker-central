@@ -36,7 +36,25 @@ const getRolesUsuario = async (req, res = response) => {
     }
 }
 
+const getUsuarioById = async (req, res = response) => {
+    let conx = new ConexionUsuario();
+
+    try {
+        let usuario = await conx.getUsuarioById(req.params.id);
+        res.json({
+            ok: true,
+            usuario
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            error
+        });
+    }
+}
+
 module.exports = {
     getUsuarios,
-    getRolesUsuario
+    getRolesUsuario,
+    getUsuarioById
 }
