@@ -42,6 +42,7 @@ export class RecomendadorMazosComponent implements AfterViewInit {
     if (token) {
       let usuario = this.utilesService.getUsuarioSession(token);
       this.id_usuario = usuario?.uid ?? 0;
+      console.log(this.id_usuario);
     }
 
     this.utilesService.clearMazoData();
@@ -115,6 +116,8 @@ export class RecomendadorMazosComponent implements AfterViewInit {
       formato: this.formRecomendador.value.formato,
       id_usuario: this.id_usuario
     }
+
+    console.log(mazo);
 
     this.RecomendadorService.crearMazo(mazo).subscribe({
       next: (respuesta: HttpResponse<any>) => {
