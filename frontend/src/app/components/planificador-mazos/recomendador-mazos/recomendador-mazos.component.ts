@@ -5,6 +5,7 @@ import { FormRecomendador } from '../../../interfaces/recomendador-interface';
 import { HttpResponse } from '@angular/common/http';
 import { Cartas } from '../../../interfaces/cartas-interface';
 import { UtilsServiceService } from '../../../services/utils/utils-service.service';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-recomendador-mazos',
@@ -24,6 +25,8 @@ export class RecomendadorMazosComponent implements AfterViewInit {
   loading: boolean = false;
   id_usuario: number = 0;
   selectedColors: string[] = [];
+  logeado: boolean = false;
+  mazoGenerado: boolean = false;
 
   formRecomendador = new FormGroup({
     nombre: new FormControl('', Validators.required),
@@ -33,7 +36,8 @@ export class RecomendadorMazosComponent implements AfterViewInit {
 
   constructor(
     private RecomendadorService: RecomendadorServiceService,
-    private utilesService: UtilsServiceService
+    private utilesService: UtilsServiceService,
+    private route: Router
   ) { }
 
   ngAfterViewInit() {
@@ -42,7 +46,9 @@ export class RecomendadorMazosComponent implements AfterViewInit {
     if (token) {
       let usuario = this.utilesService.getUsuarioSession(token);
       this.id_usuario = usuario?.uid ?? 0;
-      console.log(this.id_usuario);
+      this.logeado = true;
+    } else {
+      this.logeado = false;
     }
 
     this.utilesService.clearMazoData();
@@ -96,6 +102,7 @@ export class RecomendadorMazosComponent implements AfterViewInit {
 
         console.log(this.cartas);
         this.loading = false;
+        this.mazoGenerado = true
       },
       error: (error: any) => {
         console.log(error);
@@ -133,7 +140,7 @@ export class RecomendadorMazosComponent implements AfterViewInit {
 
             this.RecomendadorService.agregarCartaAMazo(cartaMazo).subscribe({
               next: (respuesta: HttpResponse<any>) => {
-                console.log(respuesta);
+                this.route.navigate(['/perfil']);
               },
               error: (error: any) => {
                 console.log(error);

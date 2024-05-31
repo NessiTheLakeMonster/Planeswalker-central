@@ -15,6 +15,6 @@ router.route('/')
             check('precio', 'El precio es obligatorio').not().isEmpty(),
             check('estado', 'El estado es obligatorio').not().isEmpty(),
         ],
-        checkJWT.validarVendedor, TiendaController.postTienda)
+        checkJWT.validarJWT, TiendaController.postTienda)
 
 module.exports = router

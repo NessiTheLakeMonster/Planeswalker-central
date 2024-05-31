@@ -65,13 +65,16 @@ const validarVendedor = async (req = request, res = response, next) => {
     try {
         const { roles } = jwt.verify(token, process.env.secretOrPrivateKey)
 
-        if (!roles.includes('vendedor')) {
-            return res.status(401).json({
-                msg: 'No tienes permisos para realizar esta acción'
-            })
-        } else {
-            next();
+        for (let i = 0; i < roles.length; i++) {
+            if (roles[i] === 'vendedor') {
+                next();
+                return;
+            }
         }
+
+        res.status(403).json({
+            msg: 'El usuario no tiene el rol de vendedor'
+        });
 
     } catch (error) {
         console.log(error);

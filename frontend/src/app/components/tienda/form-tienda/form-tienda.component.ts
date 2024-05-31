@@ -26,6 +26,8 @@ export class FormTiendaComponent implements OnInit {
   cartas: any = [];
   cartaSeleccionada: any = [];
 
+  usuario: any = {};
+
   cartaGuardada: CartaGuardar = {
     id_api: 0,
     nombre_en: '',
@@ -55,8 +57,7 @@ export class FormTiendaComponent implements OnInit {
     const token = sessionStorage.getItem('token');
 
     if (token) {
-      let usuario = this.utilesService.getUsuarioSession(token);
-      this.vender.value.id_vendedor = usuario?.uid ?? 0;
+      this.usuario = this.utilesService.getUsuarioSession(token);
     }
 
     this.utilesService.clearMazoData();
@@ -126,7 +127,7 @@ export class FormTiendaComponent implements OnInit {
   postCarta() {
     let cartaVender: VenderCarta = {
       id_carta: this.cartaSeleccionada.id ?? 0,
-      id_vendedor: this.vender.value.id_vendedor ?? 0,
+      id_vendedor: this.usuario.uid ?? 0,
       precio: this.vender.value.precio ?? 0,
       estado: this.vender.value.estado ?? ''
     }
@@ -139,10 +140,6 @@ export class FormTiendaComponent implements OnInit {
         console.log(error);
       }
     });
-  }
-
-  getIdVendedor() {
-
   }
 
 }

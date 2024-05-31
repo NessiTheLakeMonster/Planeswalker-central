@@ -22,7 +22,7 @@ export class TiendaServiceService {
   postArticulo(body: VenderCarta): Observable<HttpResponse<ArticuloTienda>> {
     return this.http.post<ArticuloTienda>(env.URL + 'api/tienda', body, {
       observe: 'response' as 'response',
-      params: { auth: 2 }
+      params: { auth: 1 }
     })
   }
 }
