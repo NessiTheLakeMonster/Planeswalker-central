@@ -24,6 +24,25 @@ class ConexionUsuario {
         return usuarios;
     }
 
+    getUsuarioById = async (id) => {
+        conx.conectar();
+        let usuario;
+
+        try {
+            usuario = await model.Usuario.findOne({
+                where: {
+                    id: id
+                }
+            });
+        } catch (error) {
+            usuario = null;
+        } finally {
+            conx.desconectar();
+        }
+
+        return usuario;
+    }
+
     registroUsuario = async (usuario) => {
         conx.conectar();
         let resultado = 0;

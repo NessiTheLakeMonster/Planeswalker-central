@@ -7,6 +7,7 @@ import { TiendaDetailComponent } from './components/tienda/tienda-detail/tienda-
 import { FormTiendaComponent } from './components/tienda/form-tienda/form-tienda.component';
 import { RecomendadorMazosComponent } from './components/planificador-mazos/recomendador-mazos/recomendador-mazos.component';
 import { PlanificadorManualComponent } from './components/planificador-mazos/planificador-manual/planificador-manual.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -17,5 +18,6 @@ export const routes: Routes = [
     { path: 'tienda/:id', component: TiendaDetailComponent },
     { path: 'vender', component: FormTiendaComponent },
     { path: 'recomendador', component: RecomendadorMazosComponent },
-    { path: 'planificador', component: PlanificadorManualComponent }
+    { path: 'planificador', component: PlanificadorManualComponent },
+    { path: 'perfil', component: PerfilComponent }
 ];

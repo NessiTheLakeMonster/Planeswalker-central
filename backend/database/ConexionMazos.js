@@ -35,7 +35,8 @@ class ConexionMazos {
             let mazo = await model.Mazo.findAll(
                 {
                     where: {
-                        id_usuario: idUsuario
+                        id_usuario: idUsuario,
+                        activo: 0
                     }
                 });
 
@@ -43,6 +44,36 @@ class ConexionMazos {
                 resultado = mazo;
             }
         } catch (error) {
+            console.log(error);
+            resultado = null;
+        } finally {
+            conx.desconectar();
+        }
+
+        return resultado;
+    }
+
+    getCartasInMazo = async (idMazo) => {
+        conx.conectar();
+        let resultado;
+
+        try {
+            let mazo = await model.CartasMazo.findAll(
+                {
+                    include: [{
+                        model: model.Carta,
+                        as: 'carta'
+                    }],
+                    where: {
+                        id_mazo: idMazo
+                    }
+                });
+
+            if (mazo) {
+                resultado = mazo;
+            }
+        } catch (error) {
+            console.log(error);
             resultado = null;
         } finally {
             conx.desconectar();
