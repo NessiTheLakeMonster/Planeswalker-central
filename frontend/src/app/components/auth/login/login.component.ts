@@ -62,11 +62,9 @@ export class LoginComponent implements OnInit {
       next: (respuesta: HttpResponse<UsuarioAcceso>) => {
         if (respuesta.status === 200) {
           this.loginExistoso(respuesta.body);
-          /* this.router.navigate(['/home']); */
           this.tipoAlerta = 'success';
           this.mensajeAlerta = 'Login exitoso';
         } 
-        console.log(respuesta);
       },
       error: (error) => {
         console.log(error);
@@ -79,6 +77,9 @@ export class LoginComponent implements OnInit {
 
   loginExistoso(usuarioSessionStorage: UsuarioAcceso | null) {
     sessionStorage.setItem('token', <string>usuarioSessionStorage?.token)
-    /* this.router.navigate(['/inicio']) */
+    
+    setTimeout(() => {
+      this.router.navigate(['/home']);
+    }, 2000);
   }
 }

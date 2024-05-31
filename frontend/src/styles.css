@@ -9,3 +9,12 @@ body {
 * {
     font-family: "Raleway", sans-serif;
 }
+
+.btn-primary1 {
+    background-color: #0B6183 !important; 
+    color: #FFF !important;
+}
+
+.btn-primary1:hover {
+    background-color: #0e79a4 !important;
+}

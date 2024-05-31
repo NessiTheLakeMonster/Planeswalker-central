@@ -31,4 +31,8 @@ export class HomePageComponent implements OnInit {
     this.router.navigate(['/planificador']);
   }
 
+  btnRecomendador() {
+    this.router.navigate(['/recomendador']);
+  }
+
 }
