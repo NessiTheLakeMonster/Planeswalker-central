@@ -28,26 +28,23 @@ module.exports = {
     }
 
     // El usuario 8 tiene el rol de admin, comprador y vendedor
-    let rolAdmin = [
-      {
-        id_usuario: 8,
-        id_rol: 1,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        id_usuario: 8,
-        id_rol: 2,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        id_usuario: 8,
-        id_rol: 3,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }];
+    let rolAdmin = {
+      id_usuario: 8,
+      id_rol: 1,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+
     roles_usuario.push(rolAdmin)
+
+    let rolVendedor = {
+      id_usuario: 8,
+      id_rol: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+
+    roles_usuario.push(rolVendedor)
     await queryInterface.bulkInsert('roles_asignados', roles_usuario, {});
   },
 
