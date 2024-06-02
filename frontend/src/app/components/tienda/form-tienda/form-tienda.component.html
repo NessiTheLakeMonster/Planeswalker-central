@@ -1,69 +1,82 @@
 <div class="container">
-    <h1 class="text-center p-5">Pon en venta tu carta</h1>
+    <h1 class="text-center p-5"><b>Vende tu carta</b></h1>
 
-    <div class="d-flex justify-content-center align-items-center">
-        <form [formGroup]="buscar">
-            <div class="mb-3">
-                <label for="nombre" class="form-label">Busca aquí la carta que quieres añadir</label>
-                <div class="d-flex">
-                    <input type="text" class="form-control input-buscar" id="nombre" placeholder="Narset, maestra iluminada" formControlName="name" required >
-                    <button class="btn btn-primary1 m-3" (click)="btnBuscarCarta()"><i class="bi bi-search"></i></button>
-                </div>
-                <div class="text-danger">
-                    @if (!buscar.controls.name.valid && buscar.controls.name.touched) {
-                        El nombre es obligatorio
-                    }
-                </div>
+    <div class="container-md d-flex justify-content-center">
+        <div class="col-12 col-md-8 mb-5">
+            <div class="card p-3 card-custom">
+                <div class="d-flex justify-content-center align-items-center">
+                    <form [formGroup]="buscar">
+                        <div class="mb-3">
+                            <div class="text-center mb-2">
+                                <span><b>Añade tu carta</b></span><br>
+                            </div>
 
+                            <div class="text-center">
+                                <label for="nombre" class="form-label">Busca aquí la carta que quieres vender</label>
+                            </div>
+
+                            <div class="d-flex">
+                                <input type="text" class="form-control input-buscar" id="nombre" placeholder="Narset, maestra iluminada" formControlName="name" required >
+                                <button class="btn btn-primary1 m-3" (click)="btnBuscarCarta()"><i class="bi bi-search"></i></button>
+                            </div>
+
+                            <div class="text-danger">
+                                @if (!buscar.controls.name.valid && buscar.controls.name.touched) {
+                                    El nombre es obligatorio
+                                }
+                            </div>
+    
+                        </div>
+                    </form>
+                </div>
+                
+                @if (seleccionada == true) {
+                    <div class="container-form">
+                        <form [formGroup]="vender">
+
+                            <div class="mb-3">
+                                <div class="d-flex flex-column flex-md-row justify-content-between mb-3">
+                                    <div class="me-3 flex-grow-1 mb-3 mb-md-0">
+                                        <label for="precio" class="form-label"><b>Precio</b></label>
+                                        <input type="text" class="form-control w-75 w-md-100" id="precio" formControlName="precio" required>
+                                        <div class="text-danger">
+                                            @if (!vender.controls.precio.valid && vender.controls.precio.touched) {
+                                                El precio es obligatorio
+                                            }
+                                        </div>
+                                    </div>
+                    
+                                    <div class="flex-grow-1">
+                                        <label for="estado" class="form-label"><b>Estado</b></label>
+                                        <select class="form-select form-control w-75 w-md-100" formControlName="estado" required>
+                                            <option selected></option>
+                                            <option value="Nueva">Nueva</option>
+                                            <option value="Casi nueva">Casi nueva</option>
+                                            <option value="Usada">Usada</option>
+                                            <option value="Muy usada">Muy usada</option>
+                                        </select>
+                                        <div class="text-danger">
+                                            @if (!vender.controls.estado.valid && vender.controls.estado.touched) {
+                                                El estado es obligatorio
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                                <div class="text-center">
+                                    <button class="btn btn-primary1 btn-lg m-3" (click)="postCarta()">Vender</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                } @else {
+                    <div class="text-center mb-5">
+                        <span class="text-danger">* Debes seleccionar una carta para vender</span>
+                    </div>
+                }
             </div>
-        </form>
+        </div>    
     </div>
-
-    @if (seleccionada == true) {
-        <div class="container-form">
-            <form [formGroup]="vender">
-
-                <div class="mb-3">
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-3">
-                        <div class="me-3 flex-grow-1 mb-3 mb-md-0">
-                            <label for="precio" class="form-label">Precio</label>
-                            <input type="text" class="form-control w-75 w-md-100" id="precio" formControlName="precio" required>
-                            <div class="text-danger">
-                                @if (!vender.controls.precio.valid && vender.controls.precio.touched) {
-                                    El precio es obligatorio
-                                }
-                            </div>
-                        </div>
-        
-                        <div class="flex-grow-1">
-                            <label for="estado" class="form-label">Estado</label>
-                            <select class="form-select form-control w-75 w-md-100" formControlName="estado" required>
-                                <option selected></option>
-                                <option value="Nueva">Nueva</option>
-                                <option value="Casi nueva">Casi nueva</option>
-                                <option value="Usada">Usada</option>
-                                <option value="Muy usada">Muy usada</option>
-                            </select>
-                            <div class="text-danger">
-                                @if (!vender.controls.estado.valid && vender.controls.estado.touched) {
-                                    El estado es obligatorio
-                                }
-                            </div>
-                        </div>
-                    </div>
-        
-                    <div class="text-center">
-                        <button class="btn btn-primary1 btn-lg m-3" (click)="postCarta()">Vender</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    } @else {
-        <div class="text-center mb-5">
-            <span class="text-danger">* Debes seleccionar una carta para vender</span>
-        </div>
-    }
-
     @if (loading == true) {
         <div class="loading-container">
             <div class="d-flex justify-content-center align-items-center" style="height: 10vh;">
@@ -76,15 +89,15 @@
         <div class="row">
             @if (cartas.length == 1) {
                 <div class="d-flex justify-content-center">
-                    <div class="card col-sm-6">
+                    <div class="card card-carts col-sm-6">
                         <div class="row g-0">
                             <div class="col-md-6">
                                 @if (cartas[0].foto_es) {
-                                    <img class="card-img-top p-2" src="{{ cartas[0].foto_es }}" alt="foto de la carta buscada">
+                                    <img class="card-img-top p-2 img-fluid" src="{{ cartas[0].foto_es }}" alt="foto de la carta buscada">
                                 } @else if (cartas[0].foto_en) {
-                                    <img class="card-img-top p-2" src="{{ cartas[0].foto_en }}" alt="foto de la carta buscada">
+                                    <img class="card-img-top p-2 img-fluid" src="{{ cartas[0].foto_en }}" alt="foto de la carta buscada">
                                 } @else {
-                                    <img class="card-img-top p-2" src="../../../../assets/dorso_magic.png" alt="foto de la carta buscada">
+                                    <img class="card-img-top p-2 img-fluid" src="../../../../assets/dorso_magic.png" alt="foto de la carta buscada">
                                 }
                             </div>
 
@@ -102,7 +115,7 @@
                 <div class="row">
                     @for (carta of cartas; track carta.id) {
                         <div class="col-sm-2">
-                            <div class="card mb-3">
+                            <div class="card card-carts mb-3">
 
                                 @if (carta.foto_es) {
                                     <img class="card-img-top p-2" src="{{ carta.foto_es }}" alt="foto de la carta buscada">

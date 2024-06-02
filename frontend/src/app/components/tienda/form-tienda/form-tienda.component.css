@@ -14,3 +14,15 @@
     z-index: 9999;
     width: 15%;
 }
+
+.card-custom {
+    background-color: #f8f9fa;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 20px;
+    width: 100%;
+}
+
+.card-carts {
+    border: 3px solid #0B6183;
+    border-radius: 10px;
+}
