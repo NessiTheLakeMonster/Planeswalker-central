@@ -7,3 +7,9 @@
     background-color: rgba(255, 255, 255, 0.8);
     z-index: 9999;
 }
+
+.card {
+    border: 3px solid #0B6183;
+    border-radius: 10px;
+    width: 75%;
+}

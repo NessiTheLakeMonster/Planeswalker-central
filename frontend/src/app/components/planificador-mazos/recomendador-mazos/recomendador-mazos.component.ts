@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { RecomendadorServiceService } from '../../../services/planificador-mazos/recomendador-service.service';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormRecomendador } from '../../../interfaces/recomendador-interface';
@@ -19,7 +19,7 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './recomendador-mazos.component.html',
   styleUrl: './recomendador-mazos.component.css'
 })
-export class RecomendadorMazosComponent implements AfterViewInit {
+export class RecomendadorMazosComponent implements AfterViewInit, OnInit {
   @ViewChildren('colorSwitch') colorSwitches!: QueryList<ElementRef>;
 
   cartas: any = [];
@@ -42,7 +42,10 @@ export class RecomendadorMazosComponent implements AfterViewInit {
     private route: Router
   ) { }
 
-  ngAfterViewInit() {
+  ngOnInit() {
+    this.loading = false;
+    this.mazoGenerado = false;
+
     const token = sessionStorage.getItem('token');
 
     if (token) {
@@ -54,7 +57,9 @@ export class RecomendadorMazosComponent implements AfterViewInit {
     }
 
     this.utilesService.clearMazoData();
+  }
 
+  ngAfterViewInit() {
     this.colorSwitches.forEach((switchElement, index) => {
       switchElement.nativeElement.addEventListener('change', () => {
 

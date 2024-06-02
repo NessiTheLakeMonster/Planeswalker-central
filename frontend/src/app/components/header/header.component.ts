@@ -39,17 +39,17 @@ export class HeaderComponent implements OnInit {
 
   }
 
-  tieneRolAdmin(): boolean | undefined {
+  tieneRolAdmin(): boolean {
     let retornar = this.usuario?.roles.includes('admin');
     return retornar
   }
 
-  tieneRolVendedor(): boolean | undefined {
+  tieneRolVendedor(): boolean {
     let retornar = this.usuario?.roles.includes('vendedor');
     return retornar
   }
 
-  tieneRolComprador(): boolean | undefined {
+  tieneRolComprador(): boolean {
     let retornar = this.usuario?.roles.includes('comprador');
     return retornar
   }

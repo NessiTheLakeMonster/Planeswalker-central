@@ -1,8 +1,8 @@
 <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
-<div class="wrapper">
+<div class="wrapper d-lg-block d-none">
     <aside id="sidebar">
         <div class="d-flex">
             <button class="toggle-btn" type="button" (click)="toggle()">
@@ -48,7 +48,7 @@
                 </a>
             </li>
 
-            @if (logeado == true && tieneRolAdmin() == true || tieneRolVendedor() == true) {
+            @if (logeado == true && tieneRolVendedor() == true) {
                 <li class="sidebar-item mb-2">
                     <a href="/vender" class="sidebar-link">
                         <i class="bi bi-box-seam"></i>
@@ -82,6 +82,92 @@
             </div>
         }
     </aside>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light d-lg-none">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+
+<div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasSidebarLabel">
+            <img src="../../../assets/PLANESWALKER CENTRAL.png" alt="logo" width="60px" class="me-3" >
+            <a routerLink="/">Planeswalker Central</a></h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="list-unstyled">
+            @if (logeado === false) {
+            <li class="mb-2">
+                <a href="#" class="collapsed has-dropdown" data-bs-toggle="collapse"
+                data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
+                <i class="lni lni-protection me-2"></i>
+                <span>Auth <i class="bi bi-caret-down"></i></span>
+                </a>
+                <ul id="auth" class="list-unstyled collapse">
+                    <li>
+                        <a routerLink="/login">Inicia sesión</a>
+                    </li>
+                    <li>
+                        <a routerLink="/registro">Únete a nosotros</a>
+                    </li>
+                </ul>
+            </li>
+            } @else {
+                <li class="mb-2">
+                    <a routerLink="/perfil">
+                        <i class="bi bi-person-square me-2"></i>
+                        <span>Perfil</span>
+                    </a>
+                </li>
+            }
+
+            
+            <li class="mb-2">
+                <a routerLink="/tienda">
+                    <i class="bi bi-shop me-2"></i>
+                    <span>Tienda</span>
+                </a>
+            </li>
+
+            @if (logeado == true && tieneRolVendedor() == true) {
+                <li class="mb-2">
+                    <a href="/vender">
+                        <i class="bi bi-box-seam me-2"></i>
+                        <span>Vender una carta</span>
+                    </a>
+                </li>
+            }
+
+            <li class="mb-2">
+                <a routerLink="/planificador">
+                    <i class="bi bi-boxes me-2"></i>
+                    <span>Planificador de mazos</span>
+                </a>
+            </li>
+
+            
+            <li class="mb-5">
+                <a routerLink="/recomendador">
+                    <i class="bi bi-lightbulb me-2"></i>
+                    <span>Recomendador de mazos</span>
+                </a>
+            </li>
+
+            @if (logeado === true) {
+                <li class="mt-5">
+                    <a href="#" (click)="btnCerrarSesion()">
+                        <i class="bi bi-box-arrow-left me-2"></i>
+                        <span>Cerrar sesión</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"

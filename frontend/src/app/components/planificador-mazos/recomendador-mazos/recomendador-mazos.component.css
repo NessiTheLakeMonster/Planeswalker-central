@@ -3,3 +3,52 @@
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-radius: 20px;
 }
+
+.card-carts {
+    border: 3px solid #0B6183;
+    border-radius: 10px;
+}
+
+@media screen and (max-width: 600px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .alerta-flotante {
+        width: 90%;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 1000px) {
+    .grid-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .alerta-flotante {
+        width: 75%;
+    }
+}
+
+@media screen and (min-width: 1000px){
+    .grid-container {
+        grid-template-columns: repeat(6, 1fr);
+        margin-left: 115px;
+    }
+    .form-container {
+        margin-left: 115px;
+    }
+    .alerta-flotante {
+        width: 50%;
+    }
+}
+
+@media screen and (min-width: 1445px){
+    .grid-container {
+        grid-template-columns: repeat(6, 1fr);
+        margin-left: 0px;
+    }
+    .form-container {
+        margin-left: 115px;
+    }
+    .alerta-flotante {
+        width: 50%;
+    }
+}

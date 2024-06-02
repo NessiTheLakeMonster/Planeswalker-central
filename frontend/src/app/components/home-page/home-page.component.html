@@ -10,12 +10,18 @@
     
         <hr>
 
-        <h3 class="text-center">¿Qué quieres hacer hoy?</h3>
+        <h3 class="text-center"><b>¿Qué quieres hacer hoy?</b></h3>
     
-        <div class="d-flex justify-content-center align-items-center m-5">
-            <button class="btn btn-lg btn-primary1 me-3" (click)="btnTienda()"><i class="bi bi-shop"></i><br> TIENDA DE CARTAS</button>
-            <button class="btn btn-lg btn-primary1 me-3" (click)="btnPlanificador()"><i class="bi bi-boxes"></i><br> PLANIFICADOR DE MAZOS</button>
-            <button class="btn btn-lg btn-primary1" (click)="btnRecomendador()"><i class="bi bi-lightbulb"></i> <br>RECOMENDADOR DE MAZOS</button>
+        <div class="d-flex justify-content-center align-items-center m-5 flex-wrap" style="gap: 10px;">
+            <div class="col-12 col-sm-6 col-md-4">
+                <button class="btn btn-lg btn-primary1 w-100 me-3 mb-3" (click)="btnTienda()"><i class="bi bi-shop"></i><br> TIENDA DE CARTAS</button>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <button class="btn btn-lg btn-primary1 w-100 me-3 mb-3" (click)="btnPlanificador()"><i class="bi bi-boxes"></i><br> PLANIFICADOR DE MAZOS</button>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <button class="btn btn-lg btn-primary1 w-100 mb-3" (click)="btnRecomendador()"><i class="bi bi-lightbulb"></i> <br>RECOMENDADOR DE MAZOS</button>
+            </div>
         </div>
     </div>
     
