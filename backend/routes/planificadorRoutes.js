@@ -5,6 +5,7 @@ const router = Router();
 const checkJWT = require('../middlewares/validarJWT')
 
 router.post('/recomendacion', PlanificadorMazosController.recomendacionMazo);
+
 router.post('/tipo', PlanificadorMazosController.getCartasPorTipo);
 
 router.post('/crearMazo',

@@ -6,13 +6,15 @@ import { HttpResponse } from '@angular/common/http';
 import { Cartas } from '../../../interfaces/cartas-interface';
 import { UtilsServiceService } from '../../../services/utils/utils-service.service';
 import { Route, Router } from '@angular/router';
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-recomendador-mazos',
   standalone: true,
   imports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbPopoverModule
   ],
   templateUrl: './recomendador-mazos.component.html',
   styleUrl: './recomendador-mazos.component.css'
@@ -99,8 +101,6 @@ export class RecomendadorMazosComponent implements AfterViewInit {
       next: (respuesta: HttpResponse<any>) => {
         console.log(respuesta);
         this.cartas = respuesta.body?.cartas ?? [];
-
-        console.log(this.cartas);
         this.loading = false;
         this.mazoGenerado = true
       },

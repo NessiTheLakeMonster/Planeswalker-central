@@ -8,6 +8,7 @@ import { FormTiendaComponent } from './components/tienda/form-tienda/form-tienda
 import { RecomendadorMazosComponent } from './components/planificador-mazos/recomendador-mazos/recomendador-mazos.component';
 import { PlanificadorManualComponent } from './components/planificador-mazos/planificador-manual/planificador-manual.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
+import { authGuard } from './guards/auth-guard.guard';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -16,8 +17,8 @@ export const routes: Routes = [
     { path: 'home', component: HomePageComponent },
     { path: 'tienda', component: TiendaHomeComponent },
     { path: 'tienda/:id', component: TiendaDetailComponent },
-    { path: 'vender', component: FormTiendaComponent },
+    { path: 'vender', component: FormTiendaComponent, canActivate: [authGuard] },
     { path: 'recomendador', component: RecomendadorMazosComponent },
     { path: 'planificador', component: PlanificadorManualComponent },
-    { path: 'perfil', component: PerfilComponent }
+    { path: 'perfil', component: PerfilComponent, canActivate: [authGuard] }
 ];

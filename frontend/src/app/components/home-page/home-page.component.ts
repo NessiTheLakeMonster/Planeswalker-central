@@ -15,6 +15,7 @@ import { UtilsServiceService } from '../../services/utils/utils-service.service'
 export class HomePageComponent implements OnInit {
 
   logeado: boolean = false;
+  usuario?: any = {};
 
   constructor(
     private router: Router,
@@ -27,6 +28,7 @@ export class HomePageComponent implements OnInit {
     const token = sessionStorage.getItem('token');
 
     if (token) {
+      this.usuario = this.utilsService.getUsuarioSession(token);
       this.logeado = true;
     } else {
       this.logeado = false;

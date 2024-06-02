@@ -10,9 +10,10 @@ router.get('/:id', CartasController.getCartaById)
 router.post('/',
     [
         check('nombre', 'El nombre de la carta es obligatorio').not().isEmpty(),
+        /* validarCampos */
     ],
-    /* validarCampos, */ CartasController.getCartaByNombreES)
+    CartasController.getCartaByNombreES)
 
-router.post('/guardar', CartasController.guardarCarta)
+router.post('/guardar', checkJWT.validarJWT, CartasController.guardarCarta)
 
 module.exports = router
