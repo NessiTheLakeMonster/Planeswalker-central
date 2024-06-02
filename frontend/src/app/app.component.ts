@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 
 @Component({
@@ -15,5 +15,13 @@ import { HeaderComponent } from './components/header/header.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+
+  constructor(private router: Router) { }
+
+  isLoginOrRegister(): boolean {
+    const url = this.router.url;
+    return url.includes('/login') || url.includes('/registro');
+  }
+
   title = 'frontend';
 }

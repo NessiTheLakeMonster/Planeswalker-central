@@ -76,7 +76,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginExistoso(usuarioSessionStorage: UsuarioAcceso | null) {
-    sessionStorage.setItem('token', <string>usuarioSessionStorage?.token)
+    sessionStorage.setItem('token', usuarioSessionStorage?.token ?? '');
     
     setTimeout(() => {
       this.router.navigate(['/']);

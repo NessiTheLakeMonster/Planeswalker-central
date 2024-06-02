@@ -14,6 +14,8 @@ import { UtilsServiceService } from '../../services/utils/utils-service.service'
 })
 export class HomePageComponent implements OnInit {
 
+  logeado: boolean = false;
+
   constructor(
     private router: Router,
     private utilsService: UtilsServiceService
@@ -21,6 +23,14 @@ export class HomePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.utilsService.clearMazoData();
+
+    const token = sessionStorage.getItem('token');
+
+    if (token) {
+      this.logeado = true;
+    } else {
+      this.logeado = false;
+    }
   }
 
   btnTienda() {
