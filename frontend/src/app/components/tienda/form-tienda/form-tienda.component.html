@@ -112,27 +112,28 @@
                     </div>
                 </div>
             } @else {
-                <div class="row">
-                    @for (carta of cartas; track carta.id) {
-                        <div class="col-sm-2">
-                            <div class="card card-carts mb-3">
-
-                                @if (carta.foto_es) {
-                                    <img class="card-img-top p-2" src="{{ carta.foto_es }}" alt="foto de la carta buscada">
-                                } @else if (carta.foto_en) {
-                                    <img class="card-img-top p-2" src="{{ carta.foto_en }}" alt="foto de la carta buscada">
-                                } @else {
-                                    <img class="card-img-top p-2" src="../../../../assets/dorso_magic.png" alt="foto de la carta buscada">
-                                }
-
-                                <div class="card-body d-flex justify-content-center align-items-center">
-                                    <button class="btn btn-primary1" (click)="elegirCarta(carta.id)" 
-                                    data-bs-toggle="modal" data-bs-target="#cartasModal">Seleccionar</button>
+                <div class="grid-container">
+                    <div class="row">
+                        @for (carta of cartas; track carta.id) {
+                            <div class="col-6 col-md-3 col-lg-2">
+                                <div class="card card-carts mb-3">
+    
+                                    @if (carta.foto_es) {
+                                        <img class="card-img-top p-2" src="{{ carta.foto_es }}" alt="foto de la carta buscada">
+                                    } @else if (carta.foto_en) {
+                                        <img class="card-img-top p-2" src="{{ carta.foto_en }}" alt="foto de la carta buscada">
+                                    } @else {
+                                        <img class="card-img-top p-2" src="../../../../assets/dorso_magic.png" alt="foto de la carta buscada">
+                                    }
+    
+                                    <div class="card-body d-flex flex-column flex-sm-row justify-content-center align-items-center">
+                                        <button class="btn btn-primary1" (click)="elegirCarta(carta.id)" 
+                                        data-bs-toggle="modal" data-bs-target="#cartasModal"><i class="bi bi-plus-circle"></i></button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    }
-                    
+                        }
+                    </div>
                 </div>
             }
         </div>
