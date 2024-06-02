@@ -71,23 +71,18 @@ const recomendacionMazo = async (req, res = response) => {
         }
 
         longitudMazo = Object.values(numCartasPorTipo).reduce((a, b) => a + b, 0);
-        console.log(numCartasPorTipo);
-        console.log(longitudMazo);
     } while (longitudMazo !== mazoLength);
 
     const cartas = [];
     const tipos = Object.keys(numCartasPorTipo);
 
     for (const tipo of tipos) {
-        console.log(tipo);
 
         let cartasObtenidas = [];
         while (cartasObtenidas.length < numCartasPorTipo[tipo]) {
 
             if (tipo === 'Creature') {
                 const criaturas = await addCreatureCards(conxPlanificador, cartasObtenidas, numCartasPorTipo[tipo]);
-
-                console.log(numCartasPorTipo[tipo]);
 
                 for (const criatura of criaturas) {
                     if (formatoLegal(req.body.formato, criatura) && checkearColor(criatura, req.body.colores)) {
@@ -113,13 +108,11 @@ const recomendacionMazo = async (req, res = response) => {
                 }
             }
 
-            console.log(cartasObtenidas.length);
-            console.log(numCartasPorTipo[tipo]);
+            
         }
         cartas.push(...cartasObtenidas);
     }
 
-    console.log(cartas.length)
 
     res.json({
         cartas: cartas

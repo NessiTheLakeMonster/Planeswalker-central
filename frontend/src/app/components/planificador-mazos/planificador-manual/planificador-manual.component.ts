@@ -59,8 +59,6 @@ export class PlanificadorManualComponent implements OnInit {
       this.logeado = false;
     }
 
-    console.log(this.logeado);
-
     const mazoGuardado = sessionStorage.getItem('mazo');
 
     if (mazoGuardado) {
@@ -96,8 +94,6 @@ export class PlanificadorManualComponent implements OnInit {
     this.cartasService.getCartasByNombre(cartaBuscar).subscribe({
       next: (respuesta: HttpResponse<any>) => {
         this.cartas = respuesta.body.cartas;
-
-        console.log(this.cartas); 
         this.loading = false;
       },
       error: (error: any) => {
@@ -246,7 +242,7 @@ export class PlanificadorManualComponent implements OnInit {
 
             this.recomendadorService.agregarCartaAMazo(cartaMazo).subscribe({
               next: (respuesta: HttpResponse<any>) => {
-                console.log(respuesta);
+               
               },
               error: (error: any) => {
                 console.log(error);

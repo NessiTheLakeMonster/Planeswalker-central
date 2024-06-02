@@ -123,7 +123,6 @@ export class FormTiendaComponent implements OnInit {
   guardarCarta() {
     this.cartasService.guardarCarta(this.cartaGuardada).subscribe({
       next: (respuesta: HttpResponse<any>) => {
-        console.log(respuesta.body.carta);
         this.cartaSeleccionada = respuesta.body.carta;
 
         if (respuesta.status === 203) {

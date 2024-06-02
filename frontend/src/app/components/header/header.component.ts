@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
 
     if (token) {
       this.usuario = this.utilesService.getUsuarioSession(token);
-      console.log(this.usuario);
+
       this.logeado = true;
     } else {
       this.logeado = false;

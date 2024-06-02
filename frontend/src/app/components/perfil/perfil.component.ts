@@ -46,7 +46,6 @@ export class PerfilComponent implements OnInit {
     this.usuarioService.getUsuarioById(id).subscribe({
       next: (respuesta: HttpResponse<any>) => {
         this.datosUsuario = respuesta.body.usuario;
-        console.log(respuesta.body.usuario);
       },
       error: (error: any) => {
         console.log(error);
@@ -64,7 +63,6 @@ export class PerfilComponent implements OnInit {
           this.getCartasInMazo(mazo.id);
         }
 
-        console.log(respuesta.body.mazos);
       },
       error: (error: any) => {
         console.log(error);

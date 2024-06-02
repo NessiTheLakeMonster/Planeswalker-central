@@ -100,11 +100,8 @@ export class RecomendadorMazosComponent implements AfterViewInit, OnInit {
       id_usuario: this.id_usuario
     }
 
-    console.log(parametros);
-
     this.RecomendadorService.peticionRecomendador(parametros).subscribe({
       next: (respuesta: HttpResponse<any>) => {
-        console.log(respuesta);
         this.cartas = respuesta.body?.cartas ?? [];
         this.loading = false;
         this.mazoGenerado = true
@@ -129,11 +126,8 @@ export class RecomendadorMazosComponent implements AfterViewInit, OnInit {
       id_usuario: this.id_usuario
     }
 
-    console.log(mazo);
-
     this.RecomendadorService.crearMazo(mazo).subscribe({
       next: (respuesta: HttpResponse<any>) => {
-        console.log(respuesta.body);
         const mazoId = respuesta.body.resultado.mazoId.id;
 
         cartasChunks.forEach((cartasChunk, index) => {

@@ -64,8 +64,6 @@ export class RegistroComponent implements OnInit {
           this.tipoAlerta = 'success';
           this.mensajeAlerta = 'Registro exitoso';
         }
-
-        console.log(respuesta);
       },
       error: (error) => {
         this.tipoAlerta = 'danger';

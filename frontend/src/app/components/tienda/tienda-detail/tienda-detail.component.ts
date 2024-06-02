@@ -59,8 +59,6 @@ export class TiendaDetailComponent implements OnInit {
       next: (respuesta: HttpResponse<any>) => {
         this.carta = respuesta.body.carta;
         this.loading = false;
-
-        console.log(this.carta);
       },
       error: (error: any) => {
         console.log(error);
