@@ -62,3 +62,16 @@ body {
     }
 }
 
+@media screen and (min-width: 1445px){
+    .grid-container {
+        grid-template-columns: repeat(6, 1fr);
+        margin-left: 0px;
+    }
+    .form-container {
+        margin-left: 115px;
+    }
+    .alerta-flotante {
+        width: 50%;
+    }
+}
+

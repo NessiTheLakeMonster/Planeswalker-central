@@ -18,6 +18,13 @@
     width: 100%;
 }
 
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; 
+}
+
 .card-carts {
     border: 3px solid #0B6183;
     border-radius: 10px;
@@ -45,6 +52,19 @@
     .grid-container {
         grid-template-columns: repeat(6, 1fr);
         margin-left: 115px;
+    }
+    .form-container {
+        margin-left: 115px;
+    }
+    .alerta-flotante {
+        width: 50%;
+    }
+}
+
+@media screen and (min-width: 1445px){
+    .grid-container {
+        grid-template-columns: repeat(6, 1fr);
+        margin-left: 0px;
     }
     .form-container {
         margin-left: 115px;

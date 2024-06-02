@@ -4,30 +4,32 @@
     <div class="container-md d-flex justify-content-center">
         <div class="col-12 col-md-8 mb-5">
             <div class="card p-3 card-custom">
-                <div class="d-flex justify-content-center align-items-center">
-                    <form [formGroup]="buscar">
-                        <div class="mb-3">
-                            <div class="text-center mb-2">
-                                <span><b>Añade tu carta</b></span><br>
-                            </div>
+                <div class="body">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <form [formGroup]="buscar">
+                            <div class="mb-3">
+                                <div class="text-center mb-2">
+                                    <span><b>Añade tu carta</b></span><br>
+                                </div>
 
-                            <div class="text-center">
-                                <label for="nombre" class="form-label">Busca aquí la carta que quieres vender</label>
-                            </div>
+                                <div class="text-center">
+                                    <label for="nombre" class="form-label">Busca aquí la carta que quieres vender</label>
+                                </div>
 
-                            <div class="d-flex">
-                                <input type="text" class="form-control input-buscar" id="nombre" placeholder="Narset, maestra iluminada" formControlName="name" required >
-                                <button class="btn btn-primary1 m-3" (click)="btnBuscarCarta()"><i class="bi bi-search"></i></button>
-                            </div>
+                                <div class="d-flex">
+                                    <input type="text" class="form-control input-buscar" id="nombre" placeholder="Narset, maestra iluminada" formControlName="name" required >
+                                    <button class="btn btn-primary1 m-3" (click)="btnBuscarCarta()"><i class="bi bi-search"></i></button>
+                                </div>
 
-                            <div class="text-danger">
-                                @if (!buscar.controls.name.valid && buscar.controls.name.touched) {
-                                    El nombre es obligatorio
-                                }
+                                <div class="text-danger">
+                                    @if (!buscar.controls.name.valid && buscar.controls.name.touched) {
+                                        El nombre es obligatorio
+                                    }
+                                </div>
+        
                             </div>
-    
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
                 
                 @if (seleccionada == true) {

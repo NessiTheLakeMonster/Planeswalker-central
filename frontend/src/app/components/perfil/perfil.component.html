@@ -1,7 +1,7 @@
 <div class="container profile-info">
     <div class="card profile-header">
         <div class="card-title">
-            <h1 class="text-center">Perfil de {{datosUsuario.nick}}</h1>
+            <h1 class="text-center"><b>Perfil de {{datosUsuario.nick}}</b></h1>
             <hr class="pb-2">
         </div>
         <div class="row">
@@ -49,7 +49,7 @@
         </div>
     </div>
     
-    <h1 class="text-center p-2">Mazos</h1>
+    <h1 class="text-center p-2"><b>Mazos</b></h1>
     
     @for (mazo of mazos; track mazo) {
         <div ngbAccordion #accordion="ngbAccordion" class="mb-3 game-card">
