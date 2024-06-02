@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit {
     sessionStorage.setItem('token', <string>usuarioSessionStorage?.token)
     
     setTimeout(() => {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/']);
     }, 2000);
   }
 }

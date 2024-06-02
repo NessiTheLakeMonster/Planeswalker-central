@@ -48,13 +48,6 @@
                 </a>
             </li>
 
-            <li class="sidebar-item mb-2">
-                <a href="#" class="sidebar-link">
-                    <i class="bi bi-shop"></i>
-                    <span>Tienda de puntos</span>
-                </a>
-            </li>
-
             @if (logeado == true && tieneRolAdmin() == true || tieneRolVendedor() == true) {
                 <li class="sidebar-item mb-2">
                     <a href="/vender" class="sidebar-link">
