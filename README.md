@@ -48,3 +48,195 @@ ng serve --open
 
 ## Manual de la API :closed_lock_with_key:
 
+### Rutas de autenticación
+
+#### Registro de usuario
++ **URL**
+    `http://localhost:9090/api/auth/registro`
++ **Método**
+    `POST`
++ **Body**
+    ```json
+    {
+        "nombre": "Inés",
+        "apellidos": "Barrera Llerena",
+        "email": "ines@gmail.com",
+        "nick": "NessiTheLakeMonster",
+        "password": "123456"
+    }
+    ```
+#### Inicio de sesión
++ **URL**
+    `http://localhost:9090/api/auth/login`
++ **Método**
+    `POST`
++ **Body**
+    ```json
+    {
+        "email": "ines@gmail.com",
+        "password": "123456"
+    }
+    ```
+
+### Rutas de usuario
+
+#### Obtener todos los usuarios
++ **URL**
+    `http://localhost:9090/api/usuarios`
++ **Método**
+    `GET`
+
+#### Obtener un usuario
++ **URL**
+    `http://localhost:9090/api/usuarios/user/:id`
++ **Método**
+    `GET`
+
+#### Obtener roles de un usuario
++ **URL**
+    `http://localhost:9090/api/usuarios/:id`
++ **Método**
+    `GET`
+
+### Rutas de las cartas
+
+#### Obtener carta por ID
++ **URL**
+    `http://localhost:9090/api/cartas/:id`
++ **Método**
+    `GET`
+
+#### Obtener carta por nombre en español
++ **URL**
+    `http://localhost:9090/api/cartas`
++ **Método**
+    `POST`
++ **Body**
+    ```json
+    {
+        "name": "Narset trascendente"
+    }
+    ```
+
+#### Guardar carta
++ **URL**
+    `http://localhost:9090/api/cartas/guardar`
++ **Método**
+    `POST`
++ **Body**
+    ```json
+    {
+        "id_api": 386716,
+        "nombre_en": "Warden of the Eye",
+        "nombre_es": "Protector del ojo",
+        "foto_en": "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=386716&type=card",
+        "foto_es": "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=389406&type=card"
+    }
+    ```
+
+### Rutas de los mazos
+
+#### Obtener mazo por ID
++ **URL**
+    `http://localhost:9090/api/mazos/:id`
++ **Método**
+    `GET`
+
+#### Obtener mazos de un usuario
++ **URL**
+    `http://localhost:9090/api/mazos/user/:id_user`
++ **Método**
+    `GET`
++ **Params**
+    `x-token`
+
+#### Obtener cartas de un mazo
++ **URL**
+    `http://localhost:9090/api/mazos/cartas/:id`
++ **Método**
+    `GET`
++ **Params**
+    `x-token`
+
+#### Rutas de planificador de mazos
+
+##### Obtener mazo recomendado
++ **URL**
+    `http://localhost:9090/api/planificador/recomendacion`
++ **Método**
+    `POST`
++ **Body**
+    ```json
+    {
+        "nombre": "mazo1",
+        "id_usuario": 1,
+        "formato": "Commander",
+        "colores": [
+            "W",
+            "R"
+        ]
+    }
+    ```
+
+##### Crear mazo
++ **URL**
+    `http://localhost:9090/api/planificador/crearMazo`
++ **Método**
+    `POST`
++ **Body**
+    ```json
+    {
+        "nombre": "mazo1",
+        "id_usuario": 1,
+        "formato": "Commander"
+    }
+    ```
++ **Params**
+    `x-token`
+
+##### Añadir carta a mazo
++ **URL**
+    `http://localhost:9090/api/planificador/agregarCartaAMazo`
++ **Método**
+    `POST`
++ **Body**
+    ```json
+    {
+        "id_carta": 1,
+        "id_mazo": 1
+    }
+    ```
++ **Params**
+    `x-token`
+
+
+### Rutas de la tienda
+
+#### Obtener todas las cartas
++ **URL**
+    `http://localhost:9090/api/tienda`
++ **Método**
+    `GET`
+
+#### Get carta de la tienda por ID
++ **URL**
+    `http://localhost:9090/api/tienda/:id`
++ **Método**
+    `GET`
+
+#### Poner en venta carta
++ **URL**
+    `http://localhost:9090/api/tienda`
++ **Método**
+    `POST`
++ **Body**
+    ```json
+    {
+        "id_vendedor" : 8,
+        "id_carta" : 5,
+        "precio" : 10,
+        "estado" : "en buen estado"
+    }
+    ```
++ **Params**
+    `x-token`
