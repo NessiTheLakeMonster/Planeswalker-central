@@ -1,28 +1,55 @@
 <div class="container">
 
-    <h1 class="text-center p-5">Tienda</h1>
+    <h1 class="text-center p-5"><b>Tienda de cartas</b></h1>
+    <hr>
+    <div class="mb-2 ">
+        <h3 class=" mb-5">Filtrar cartas</h3>
+        <form class="d-flex justify-content-between">
+            <input type="text" class="form-control me-2" placeholder="Buscar por nombre">
+            <select class="form-select me-2">
+                <option selected>Filtrar por estado</option>
+                <option value="Nueva">Nueva</option>
+                <option value="Casi nueva">Casi nueva</option>
+                <option value="Usada">Usada</option>
+                <option value="Muy usada">Muy usada</option>
+            </select>
+            <select class="form-select me-2">
+                <option selected>Filtrar por color</option>
+                <option value="W">Blanco</option>
+                <option value="B">Azul</option>
+                <option value="R">Rojo</option>
+                <option value="G">Verde</option>
+                <option value="U">Negro</option>
+            </select>
+            <button class="btn btn-primary1" type="submit" disabled>Filtrar</button>
+        </form>
+        <div class="text-danger text-end p-3">
+            <span>* Los filtros serán incorporados en próximas actualizaciones</span>
+        </div>
+    </div>
 
         <div class="grid-container">
             @for (articulo of articulos; track articulo) {
-                <div class="card">
-                    <img class="card-img-top p-2" src="{{articulo.carta.foto_es}}" alt="">
-
-                    <div class="card-body">
-                        <h5 class="card-title">{{articulo.carta.nombre_es}}</h5>
-                        <p class="card-text">{{articulo.precio}} €</p>
-                    </div>
+                <div class="card mb-3">
+                    @if (articulo.carta.foto_es) {
+                        <img class="card-img-top p-2" src="{{ articulo.carta.foto_es }}" alt="foto de la carta buscada">
+                    } @else if (articulo.carta.foto_en) {
+                        <img class="card-img-top p-2" src="{{ articulo.carta.foto_en }}" alt="foto de la carta buscada">
+                    } @else {
+                        <img class="card-img-top p-2" src="../../../../assets/dorso_magic.png" alt="foto de la carta buscada">
+                    }
 
                     <div class="card-footer">
-                        <a href="/tienda/{{articulo.id}}" class="btn btn-primary">Ver</a>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="card-text"> <span class="badge text-bg-secondary p-2 mt-3">{{articulo.precio}} €</span></p>
+                            <a href="/tienda/{{articulo.id}}" class="btn btn-primary1">Ver</a>
+                        </div>
                     </div>
+                    
 
                 </div>
                 
             }
         </div>
-
 </div>
 
-<div>
-    <button class="btn btn-primary" (click)="vender()">Vender una carta</button>
-</div>

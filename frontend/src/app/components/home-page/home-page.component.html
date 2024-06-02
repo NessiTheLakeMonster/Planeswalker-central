@@ -1,18 +1,24 @@
-<div class="">
-    <img src="../../../assets/voyager-title-magic-gathering.jpg" alt="encabezado de la pagina principal" class="img-fluid pl-5">
-</div>
-
-
-<div class="container">
-    <h1 class="text-center m-5">Planeswalker Central</h1>
-
-    <app-noticia></app-noticia>
-
-    <hr>
-
-    <div class="d-flex justify-content-center align-items-center m-5">
-        <button class="btn btn-lg btn-primary me-3" (click)="btnTienda()"><i class="bi bi-shop"></i> TIENDA</button>
-        <button class="btn btn-lg btn-primary" (click)="btnPlanificador()">PLANIFICADOR DE MAZOS</button>
+<body>
+    <div class="img-container">
+        <img src="../../../assets/BANNER.png" alt="encabezado de la pagina principal" class="banner">
     </div>
-</div>
+    
+    
+    <div class="container">
+    
+        <app-noticia></app-noticia>
+    
+        <hr>
+
+        <h3 class="text-center">¿Qué quieres hacer hoy?</h3>
+    
+        <div class="d-flex justify-content-center align-items-center m-5">
+            <button class="btn btn-lg btn-primary1 me-3" (click)="btnTienda()"><i class="bi bi-shop"></i><br> TIENDA DE CARTAS</button>
+            <button class="btn btn-lg btn-primary1 me-3" (click)="btnPlanificador()"><i class="bi bi-boxes"></i><br> PLANIFICADOR DE MAZOS</button>
+            <button class="btn btn-lg btn-primary1" (click)="btnRecomendador()"><i class="bi bi-lightbulb"></i> <br>RECOMENDADOR DE MAZOS</button>
+        </div>
+    </div>
+    
+</body>
+
 

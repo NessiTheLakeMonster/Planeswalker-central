@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     let roles_usuario = []
 
     // Los usuarios tienen por defecto el rol de comprador
@@ -27,18 +27,28 @@ module.exports = {
       roles_usuario.push(rolusuario)
     }
 
-    // El usuario 8 tiene el rol de admin
+    // El usuario 8 tiene el rol de admin, comprador y vendedor
     let rolAdmin = {
       id_usuario: 8,
       id_rol: 1,
       createdAt: new Date(),
       updatedAt: new Date()
     }
+
     roles_usuario.push(rolAdmin)
+
+    let rolVendedor = {
+      id_usuario: 8,
+      id_rol: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+
+    roles_usuario.push(rolVendedor)
     await queryInterface.bulkInsert('roles_asignados', roles_usuario, {});
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     /**
      * Add commands to revert seed here.
      *

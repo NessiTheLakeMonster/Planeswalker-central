@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CartasServiceService } from '../../../services/cartas/cartas-service.service';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Carta, CartaBuscar, CartaGuardar } from '../../../interfaces/cartas-interface';
-import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpResponse } from '@angular/common/http';
 import { TiendaServiceService } from '../../../services/tienda/tienda-service.service';
 import { VenderCarta } from '../../../interfaces/tienda-interface';
 import { UtilsServiceService } from '../../../services/utils/utils-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-tienda',
@@ -14,7 +15,8 @@ import { UtilsServiceService } from '../../../services/utils/utils-service.servi
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    NgbAlertModule
   ],
   templateUrl: './form-tienda.component.html',
   styleUrl: './form-tienda.component.css'
@@ -23,8 +25,15 @@ export class FormTiendaComponent implements OnInit {
   loading: boolean = false;
   loadingModal: boolean = false;
 
+  tipoAlerta: string = '';
+  mensajeAlerta: string = '';
+  mostrarAlerta: boolean = false;
+
   cartas: any = [];
   cartaSeleccionada: any = [];
+  seleccionada: boolean = false;
+
+  usuario: any = {};
 
   cartaGuardada: CartaGuardar = {
     id_api: 0,
@@ -48,15 +57,15 @@ export class FormTiendaComponent implements OnInit {
   constructor(
     private cartasService: CartasServiceService,
     private tiendaService: TiendaServiceService,
-    private utilesService: UtilsServiceService
+    private utilesService: UtilsServiceService,
+    private route: Router
   ) { }
 
   ngOnInit(): void {
     const token = sessionStorage.getItem('token');
 
     if (token) {
-      let usuario = this.utilesService.getUsuarioSession(token);
-      this.vender.value.id_vendedor = usuario?.uid ?? 0;
+      this.usuario = this.utilesService.getUsuarioSession(token);
     }
 
     this.utilesService.clearMazoData();
@@ -76,7 +85,15 @@ export class FormTiendaComponent implements OnInit {
         this.loading = false;
       },
       error: (error: any) => {
-        console.log(error);
+        
+        this.mostrarAlerta = true;
+        this.tipoAlerta = 'danger';
+        this.mensajeAlerta = 'No se ha encontrado ninguna carta';
+
+        setTimeout(() => {
+          this.mostrarAlerta = false;
+        }
+        , 3000);
       }
     });
   }
@@ -85,7 +102,6 @@ export class FormTiendaComponent implements OnInit {
     this.loadingModal = true;
     this.cartasService.getCartaByMultiverseId(id).subscribe({
       next: (respuesta: HttpResponse<any>) => {
-        console.log(respuesta.body.carta);
 
         this.cartaGuardada = {
           id_api: respuesta.body.carta.multiverseid,
@@ -95,8 +111,8 @@ export class FormTiendaComponent implements OnInit {
           foto_es: respuesta.body.carta.foreignNames[1].imageUrl
         }
 
-        console.log(this.cartaGuardada);
         this.loadingModal = false;
+        this.seleccionada = true;
       },
       error: (error: any) => {
         console.log(error);
@@ -126,23 +142,42 @@ export class FormTiendaComponent implements OnInit {
   postCarta() {
     let cartaVender: VenderCarta = {
       id_carta: this.cartaSeleccionada.id ?? 0,
-      id_vendedor: this.vender.value.id_vendedor ?? 0,
+      id_vendedor: this.usuario.uid ?? 0,
       precio: this.vender.value.precio ?? 0,
       estado: this.vender.value.estado ?? ''
     }
 
     this.tiendaService.postArticulo(cartaVender).subscribe({
       next: (respuesta: HttpResponse<any>) => {
-        console.log(respuesta.body.articulo);
+        this.mostrarAlerta = true;
+        this.tipoAlerta = 'success';
+        this.mensajeAlerta = 'Carta publicada correctamente';
+
+        setTimeout(() => {
+          this.mostrarAlerta = false;
+        }
+        , 3000);
+
+        setTimeout(() => {
+          this.route.navigate(['/tienda']);
+        }
+        , 3000);
+
       },
       error: (error: any) => {
+        
+        this.mostrarAlerta = true;
+        this.tipoAlerta = 'danger';
+        this.mensajeAlerta = 'Error al publicar la carta';
+
+        setTimeout(() => {
+          this.mostrarAlerta = false;
+        }
+        , 3000);
+
         console.log(error);
       }
     });
-  }
-
-  getIdVendedor() {
-
   }
 
 }

@@ -3,6 +3,7 @@ const TiendaController = require('../controllers/TiendaController')
 const router = Router()
 const checkJWT = require('../middlewares/validarJWT')
 const { check } = require('express-validator')
+const { validarCampos } = require('../middlewares/validarCampos')
 
 router.get('/:id', TiendaController.getTiendaById)
 
@@ -15,6 +16,6 @@ router.route('/')
             check('precio', 'El precio es obligatorio').not().isEmpty(),
             check('estado', 'El estado es obligatorio').not().isEmpty(),
         ],
-        checkJWT.validarVendedor, TiendaController.postTienda)
+        validarCampos, checkJWT.validarVendedor, TiendaController.postTienda)
 
 module.exports = router

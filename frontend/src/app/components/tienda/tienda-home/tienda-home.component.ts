@@ -37,8 +37,4 @@ export class TiendaHomeComponent implements OnInit {
       }
     });
   }
-
-  vender() {
-    this.router.navigate(['/vender']);
-  }
 }

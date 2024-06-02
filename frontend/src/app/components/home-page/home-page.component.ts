@@ -14,6 +14,9 @@ import { UtilsServiceService } from '../../services/utils/utils-service.service'
 })
 export class HomePageComponent implements OnInit {
 
+  logeado: boolean = false;
+  usuario?: any = {};
+
   constructor(
     private router: Router,
     private utilsService: UtilsServiceService
@@ -21,6 +24,15 @@ export class HomePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.utilsService.clearMazoData();
+
+    const token = sessionStorage.getItem('token');
+
+    if (token) {
+      this.usuario = this.utilsService.getUsuarioSession(token);
+      this.logeado = true;
+    } else {
+      this.logeado = false;
+    }
   }
 
   btnTienda() {
@@ -29,6 +41,10 @@ export class HomePageComponent implements OnInit {
 
   btnPlanificador() {
     this.router.navigate(['/planificador']);
+  }
+
+  btnRecomendador() {
+    this.router.navigate(['/recomendador']);
   }
 
 }

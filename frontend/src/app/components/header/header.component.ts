@@ -37,20 +37,7 @@ export class HeaderComponent implements OnInit {
       this.logeado = false;
     }
 
-    /* this.getRoles(); */
   }
-
-  /* getRoles() {
-    this.usuarioService.getRolesUsuario(this.usuario?.uid).subscribe({
-      next: (respuesta: any) => {
-        this.rol = respuesta.body.roles;
-        console.log(this.rol);
-      },
-      error: (error: any) => {
-        console.log(error);
-      }
-    });
-  } */
 
   tieneRolAdmin(): boolean | undefined {
     let retornar = this.usuario?.roles.includes('admin');

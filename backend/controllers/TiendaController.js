@@ -17,6 +17,9 @@ const postTienda = async (req, res = response) => {
                 ok: false,
                 error: "No se pudo insertar la carta"
             });
+
+            console.log(error)
+            return; 
         }
     } catch (error) {
         res.status(500).json({

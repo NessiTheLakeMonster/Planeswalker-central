@@ -6,7 +6,7 @@
     <aside id="sidebar">
         <div class="d-flex">
             <button class="toggle-btn" type="button" (click)="toggle()">
-                <i class="lni lni-grid-alt"></i>
+                <img src="../../../assets/PLANESWALKER CENTRAL.png" alt="logo" >
             </button>
             <div class="sidebar-logo">
                 <a href="#">Planeswalker Central</a>
@@ -48,22 +48,14 @@
                 </a>
             </li>
 
-            <li class="sidebar-item mb-2">
-                <a href="#" class="sidebar-link">
-                    <i class="bi bi-shop"></i>
-                    <span>Tienda de puntos</span>
-                </a>
-            </li>
-
             @if (logeado == true && tieneRolAdmin() == true || tieneRolVendedor() == true) {
                 <li class="sidebar-item mb-2">
                     <a href="/vender" class="sidebar-link">
-                        <i class="bi bi-shop"></i>
-                        <span>Tienda de puntos</span>
+                        <i class="bi bi-box-seam"></i>
+                        <span>Vender una carta</span>
                     </a>
                 </li>
             }
-            
             
             <li class="sidebar-item mb-2">
                 <a routerLink="/planificador" class="sidebar-link">
@@ -79,17 +71,19 @@
                     <span>Recomendador de mazos</span>
                 </a>
             </li>
-            
-
         </ul>
-        <div class="sidebar-footer">
-            <a href="#" class="sidebar-link" (click)="btnCerrarSesion()">
-                <i class="bi bi-box-arrow-left"></i>
-                <span>Cerrar sesión</span>
-            </a>
-        </div>
+
+        @if (logeado == true) {
+            <div class="sidebar-footer">
+                <a href="#" class="sidebar-link" (click)="btnCerrarSesion()">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <span>Cerrar sesión</span>
+                </a>
+            </div>
+        }
     </aside>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
     crossorigin="anonymous"></script>

@@ -14,14 +14,16 @@ export class MazosServiceService {
   getMazosUsuario(id: number): Observable<HttpResponse<MazosResponse>> {
     return this.http.get<MazosResponse>(env.URL + 'api/mazos/user/' + id,
       {
-        observe: 'response' as 'response'
+        observe: 'response' as 'response',
+        params: { auth : 1 }
       });
   }
 
   getCartasInMazo(id: number): Observable<HttpResponse<CartasMazoResponse>> {
     return this.http.get<CartasMazoResponse>(env.URL + 'api/mazos/cartas/' + id,
       {
-        observe: 'response' as 'response'
+        observe: 'response' as 'response',
+        params: { auth : 1 }
       });
   }
 }

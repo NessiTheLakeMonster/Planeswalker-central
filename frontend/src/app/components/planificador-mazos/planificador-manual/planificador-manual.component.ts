@@ -32,6 +32,8 @@ export class PlanificadorManualComponent implements OnInit {
 
   id_usuario: number = 0;
 
+  logeado: boolean = false;
+
   buscar = new FormGroup({
     name: new FormControl('', Validators.required)
   });
@@ -52,7 +54,12 @@ export class PlanificadorManualComponent implements OnInit {
     if (token) {
       let usuario = this.utilesService.getUsuarioSession(token);
       this.id_usuario = usuario?.uid ?? 0;
+      this.logeado = true;
+    } else {
+      this.logeado = false;
     }
+
+    console.log(this.logeado);
 
     const mazoGuardado = sessionStorage.getItem('mazo');
 
@@ -192,6 +199,24 @@ export class PlanificadorManualComponent implements OnInit {
     return this.mazo.length >= maxMazoSize;
   }
 
+  checkSeleccionMazoType(): boolean {
+    const mazoTypeGuardado = sessionStorage.getItem('mazoType');
+    let checked = false;
+
+    if (mazoTypeGuardado) {
+      const radioButton = document.querySelector(`input[name="mazoType"][value="${mazoTypeGuardado}"]`) as HTMLInputElement;
+
+      if (radioButton) {
+        radioButton.checked = true;
+        checked = true;
+      } else {
+        checked = false;
+      }
+    }
+
+    return checked;
+  }
+
   guardarMazo() {
     const mazoType = sessionStorage.getItem('mazoType') ?? '';
 
@@ -233,6 +258,8 @@ export class PlanificadorManualComponent implements OnInit {
         this.mostrarAlerta = true;
         this.tipoAlerta = 'success';
         this.mensajeAlerta = 'Mazo guardado con éxito';
+
+        this.router.navigate(['/perfil']);
 
         sessionStorage.removeItem('mazo');
         sessionStorage.removeItem('mazoType');

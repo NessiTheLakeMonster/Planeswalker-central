@@ -233,7 +233,8 @@ const crearMazo = async (req, res = response) => {
             {
                 nombre: req.body.nombre,
                 formato: req.body.formato,
-                activo: 0
+                activo: 0,
+                id_usuario: req.body.id_usuario
             }
         );
 
