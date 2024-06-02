@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+    background-image: url('./assets/wallpaper.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+* {
+    font-family: "Raleway", sans-serif;
+}
+
+.btn-primary1 {
+    background-color: #0B6183 !important; 
+    color: #FFF !important;
+}
+
+.btn-primary1:hover {
+    background-color: #0e79a4 !important;
+}

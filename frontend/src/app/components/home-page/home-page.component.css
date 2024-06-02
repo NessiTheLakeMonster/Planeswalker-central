@@ -1,0 +1,30 @@
+.main-component {
+    margin-left: 280px;
+}
+
+.img-container {
+    margin-top: 10px;
+    margin-left: 115px;
+    margin-right: 5px;
+}
+
+.banner {
+    position: relative;
+    width: 100%;
+    height: auto;
+    opacity: 0.9;
+    border-radius: 10px;
+}
+
+@media (max-width: 985px) {
+    .img-container {
+        margin-top: 0px;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .banner {
+        border-radius: 0px;
+    }
+}
+

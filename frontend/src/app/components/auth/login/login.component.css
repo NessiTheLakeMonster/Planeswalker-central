@@ -1,0 +1,59 @@
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.center-container .card {
+    max-width: 600px; 
+    width: 100%;
+    margin: 0 auto;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.alerta-flotante {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    width: 15%;
+}
+
+.btn-custom {
+    background-color: #123456;
+    color: #ffffff;
+}
+
+.btn-custom:hover {
+    background-color: #0f2d4d; 
+    color: #ffffff;
+}
+
+@media screen and (max-width: 600px) {
+    .alerta-flotante {
+        width: 90%;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 1000px) {
+    .alerta-flotante {
+        width: 75%;
+    }
+}
+
+@media screen and (min-width: 1000px){
+    .alerta-flotante {
+        width: 50%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .alerta-flotante {
+        width: 15%;
+    }
+}

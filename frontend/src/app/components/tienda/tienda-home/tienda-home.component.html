@@ -1,0 +1,55 @@
+<div class="container">
+
+    <h1 class="text-center p-5"><b>Tienda de cartas</b></h1>
+    <hr>
+    <div class="form-container mb-2">
+        <h3 class=" mb-5">Filtrar cartas</h3>
+        <form class="d-flex flex-column flex-md-row justify-content-between">
+            <input type="text" class="form-control me-2 mb-2 mb-md-0" placeholder="Buscar por nombre">
+            <select class="form-select me-2 mb-2 mb-md-0">
+                <option selected>Filtrar por estado</option>
+                <option value="Nueva">Nueva</option>
+                <option value="Casi nueva">Casi nueva</option>
+                <option value="Usada">Usada</option>
+                <option value="Muy usada">Muy usada</option>
+            </select>
+            <select class="form-select me-2 mb-2 mb-md-0">
+                <option selected>Filtrar por color</option>
+                <option value="W">Blanco</option>
+                <option value="B">Azul</option>
+                <option value="R">Rojo</option>
+                <option value="G">Verde</option>
+                <option value="U">Negro</option>
+            </select>
+            <button class="btn btn-primary1" type="submit" disabled>Filtrar</button>
+        </form>
+        <div class="text-danger text-end p-3">
+            <span>* Los filtros serán incorporados en próximas actualizaciones</span>
+        </div>
+    </div>
+
+    <div class="grid-container">
+        @for (articulo of articulos; track articulo) {
+            <div class="card mb-3">
+                @if (articulo.carta.foto_es) {
+                    <img class="card-img-top p-2" src="{{ articulo.carta.foto_es }}" alt="foto de la carta buscada">
+                } @else if (articulo.carta.foto_en) {
+                    <img class="card-img-top p-2" src="{{ articulo.carta.foto_en }}" alt="foto de la carta buscada">
+                } @else {
+                    <img class="card-img-top p-2" src="../../../../assets/dorso_magic.png" alt="foto de la carta buscada">
+                }
+
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p class="card-text"> <span class="badge text-bg-secondary p-2 mt-3"><i class="bi bi-tags"></i> {{articulo.precio}} €</span></p>
+                        <a href="/tienda/{{articulo.id}}" class="btn btn-primary1"><i class="bi bi-eye"></i></a>
+                    </div>
+                </div>
+                
+
+            </div>
+            
+        }
+    </div>
+</div>
+

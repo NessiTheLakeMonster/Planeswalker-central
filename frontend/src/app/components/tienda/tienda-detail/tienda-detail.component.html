@@ -1,0 +1,70 @@
+@if (loading == true) {
+    <div class="loading-container">
+        <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+            <div class="spinner-grow text-primary spinner-grow-lg" role="status">
+                <span class="sr-only"></span>
+            </div>
+        </div>
+    </div>
+} @else {
+    <div class="container">
+        <h1 class="text-center p-5"><b>Especificaciones de la carta</b></h1>
+    
+        <div class="card-container d-flex justify-content-center align-items-center">
+            <div class="card">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <img class="card-img-top p-4" src="{{articulo?.carta?.foto_es}}" alt="">
+                    </div>
+
+                    <div class="col-sm-6 p-5">
+                        <div class="card-body">
+                            @if (articulo?.carta?.nombre_es == null) {
+                                <h3 class="card-title text-center"><b>{{articulo?.carta?.nombre_en}}</b></h3>
+                            } @else {
+                                <h3 class="card-title text-center"><b>{{articulo?.carta?.nombre_es}}</b></h3>
+                            }
+                        </div>
+                        <hr>
+                        <div class="card-body">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th>Nombre en español:</th>
+                                        <td>{{articulo?.carta?.nombre_es}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Nombre en inglés:</th>
+                                        <td>{{carta?.name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tipo:</th>
+                                        <td>{{carta?.type}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Rareza:</th>
+                                        <td>{{carta?.rarity}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Set:</th>
+                                        <td>{{carta?.setName}} ({{carta?.set}})</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class="card-text"><span class="badge text-bg-secondary p-3 mt-3 me-2"> <i class="bi bi-tags"></i> {{articulo?.precio}} €</span></p>
+                        </div>
+
+                        <div class="d-flex justify-content-end p-5">
+                            <button class="btn btn-primary1 btn-lg"><i class="bi bi-bag"></i> Comprar</button>
+                        </div>
+                    </div>
+
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+}

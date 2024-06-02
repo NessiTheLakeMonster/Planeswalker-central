@@ -1,0 +1,44 @@
+<body>
+    <div class="center-container">
+        <div class="container card p-5">
+            <h1 class="text-center mb-5"><b>Inicia sesión en tu cuenta</b></h1>
+    
+            <form [formGroup]="loginForm">
+    
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo electrónico</label>
+                    <input type="email" class="form-control" id="email" formControlName="email" required>
+                    <div class="text-danger">
+                        @if (!loginForm.controls.email.valid && loginForm.controls.email.touched) {
+                            El correo electrónico es obligatorio
+                        }
+                    </div>
+                </div>
+    
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="password" formControlName="password">
+                    <div class="text-danger">
+                        @if (!loginForm.controls.password.valid && loginForm.controls.password.touched) {
+                            Password is required
+                        }
+                    </div>
+                </div>
+    
+                <div>
+                    <a (click)="btnRegistro()" class="text-decoration-none">¿Aún no tienes una cuenta?, puedes crear una aquí.</a>
+                </div>
+    
+                <div class="btn-container">
+                    <button type="submit" (click)="btnLogin()" class="btn btn-custom" [disabled]="!loginForm.valid">Iniciar sesión</button>
+                </div>
+    
+                @if (mostrarAlerta) {
+                    <ngb-alert class="alerta-flotante m-4 text-center" [type]=tipoAlerta>{{ mensajeAlerta }}</ngb-alert>
+                }
+            
+            </form>
+        </div>
+    </div>
+</body>
+

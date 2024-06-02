@@ -1,0 +1,201 @@
+<div class="container">
+    <h1 class="text-center m-5"><b>Planificador de mazos manual</b></h1>
+
+    <div class="container-md d-flex justify-content-center">
+        <div class="col-12 col-md-8 mb-5">
+            <div class="card p-3 card-custom">
+                <div class="body">
+                    <div class="text-center mb-2">
+                        <span><b>Tipo de mazo</b></span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-center align-items-center mb-5 flex-column">
+                        
+                        <div class="d-flex justify-content-center align-items-center mb-2">
+                            <div class="form-check me-3">
+                                <input class="form-check-input" type="radio" name="mazoType" id="mazoCommander" value="Commander" (change)="onMazoTypeChange($event)">
+                                <label class="form-check-label" for="mazoCommander">
+                                    Mazo Commander
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="mazoType" id="mazoStandard" value="Standard" (change)="onMazoTypeChange($event)">
+                                <label class="form-check-label" for="mazoStandard">
+                                    Mazo Standard
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-center align-items-center">
+                        <form [formGroup]="buscar">
+                            <div class="mb-3">
+                                <div class="text-center mb-2">
+                                    <span><b>Añade tu carta</b></span><br>
+                                </div>
+                                
+                                <div class="text-center">
+                                    <label for="nombre" class="form-label">Busca aquí la carta que quieres añadir a tu mazo</label>
+                                </div>
+                                <div class="d-flex">
+                                    <input type="text" class="form-control input-buscar" id="nombre" placeholder="Narset, maestra iluminada" formControlName="name" required >
+                                    <button class="btn btn-primary1 m-3" (click)="btnBuscarCarta()" [disabled]="!isMazoTypeSelected()"><i class="bi bi-search"></i></button>
+                                </div>
+                                <div class="text-danger">
+                                    @if (!buscar.controls.name.valid && buscar.controls.name.touched) {
+                                        El nombre es obligatorio
+                                    }
+                                </div>
+
+                                @if (!checkSeleccionMazoType()) {
+                                    <div class="text-danger">
+                                        * Debes seleccionar un tipo de mazo para poder buscar cartas
+                                    </div>
+                                }
+
+                                @if (mazo.length > 0) {
+                                    <div class="text-danger mt-4">
+                                        <p>* Si te sales ahora de la página no se guardarán los cambios</p>
+                                    </div>
+                                    
+                                }
+
+                                @if (mostrarAlerta) {
+                                    <ngb-alert class="alerta-flotante m-4 text-center" [type]=tipoAlerta>{{ mensajeAlerta }}</ngb-alert>
+                                }
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+    @if (loading == true) {
+        <div class="loading-container">
+            <div class="d-flex justify-content-center align-items-center" style="height: 10vh;">
+                <div class="spinner-grow text-primary spinner-grow-lg" role="status">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+        </div>
+    } @else {
+        <div class="grid-container">
+            <div class="row">
+                @for (carta of cartas; track carta.id) {
+                    <div class="col-6 col-md-3 col-lg-2">
+                        <div class="card card-carts mb-3">
+                            
+                            @if (carta.foto_es) {
+                                <img class="card-img-top p-2" src="{{ carta.foto_es }}" alt="foto de la carta buscada">
+                            } @else if (carta.foto_en) {
+                                <img class="card-img-top p-2" src="{{ carta.foto_en }}" alt="foto de la carta buscada">
+                            } @else {
+                                <img class="card-img-top p-2" src="../../../../assets/dorso_magic.png" alt="foto de la carta buscada">
+                            }
+                            
+                            <div class="card-body d-flex flex-column flex-sm-row justify-content-center align-items-center">
+                                <button class="btn btn-primary1 mb-2 mb-sm-0 me-sm-2 flex-fill text-truncate" (click)="elegirCarta(carta.id)"><i class="bi bi-plus-circle"></i></button>
+
+                                <button class="btn btn-outline-secondary flex-fill text-truncate" 
+                                [ngbPopover]="popContent" 
+                                [popoverTitle]="popTitle"
+                                placement="bottom">
+                                <i class="bi bi-eye"></i></button>
+                            </div>
+
+                            <ng-template #popContent
+                                > <b>Nombre en español :</b> {{carta.nombre_es}}
+                                <br> <b>Nombre en inglés :</b> {{ carta.nombre_en }}</ng-template
+                            >
+                            <ng-template #popTitle><b>Especificaciones de la carta</b></ng-template>
+                        </div>
+                    </div>
+                }
+                
+            </div>
+        </div>
+    }
+
+    <div class="position-fixed bottom-0 end-0 p-3 m-3 m-md-5 d-none d-sm-block">
+        <button class="btn btn-lg btn-primary1 m-3" (click)="btnRecomendador()">Recomiendame un mazo</button>
+        <button type="button" class="btn btn-primary1 btn-lg position-relative" data-bs-toggle="modal" data-bs-target="#mazoModal">
+            Ver mazo
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{ mazo.length }}
+            </span>
+        </button>
+    </div>
+
+    <div class="d-block d-sm-none text-center mt-3 mb-3">
+        <button class="btn btn-lg btn-primary1 m-3" (click)="btnRecomendador()">Recomiendame un mazo</button>
+        <button type="button" class="btn btn-primary1 btn-lg position-relative" data-bs-toggle="modal" data-bs-target="#mazoModal">
+            Ver mazo
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{ mazo.length }}
+            </span>
+        </button>
+    </div>
+
+    <div class="modal fade" id="mazoModal" tabindex="-1" aria-labelledby="mazoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="mazoModalLabel">Mazo actual</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                @if (logeado == true) {
+                    <div class="d-flex m-2 justify-content-center">
+                        <button type="button" class="btn btn-lg btn-primary1" data-bs-dismiss="modal" [disabled]="!mazoLleno()" (click)="guardarMazo()">Terminar y guardar mazo</button>
+                    </div>
+                } @else {
+                    <div class="d-flex m-2 justify-content-center">
+                        <button 
+                        type="button" 
+                        class="btn btn-lg btn-primary1" 
+                        data-bs-dismiss="modal" 
+                        disabled>Terminar y guardar mazo</button>
+                    </div>
+                    <div>
+                        <p class="text-danger text-center">* Debes estar logeado para poder guardar el mazo</p>
+                    </div>
+                }
+
+                <div class="modal-body overflow-auto">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre en inglés</th>
+                                <th>Nombre en español</th>
+                                <th>Tipo</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (carta of mazo; track carta) {
+                                <tr>
+
+                                    <td> {{carta.id}} {{ carta.nombre_en }}</td>
+                                    <td>{{ carta.nombre_es }}</td>
+
+                                    <td>{{ carta.tipo }}</td>
+
+                                    <td class="text-center">
+                                        <button class="btn btn-danger" (click)="quitarCartaMazo(carta.id)">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

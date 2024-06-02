@@ -1,0 +1,86 @@
+<div class="container profile-info">
+    <div class="card profile-header">
+        <div class="card-title">
+            <h1 class="text-center"><b>Perfil de {{datosUsuario.nick}}</b></h1>
+            <hr class="pb-2">
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-4 text-center d-flex flex-column align-items-center">
+                @if (datosUsuario.foto_perfil == "foto_perfil_defecto.jpg") {
+                    <img src="../../../assets/foto_perfil_defecto.jpg" alt="foto perfil defecto" class="profile-pic">
+                } @else {
+                    <img src="../../../assets/{{datosUsuario.foto_perfil}}" alt="foto perfil" class="img img-fluid profile-pic">
+                }
+                
+                <div class="card mt-3 logros-card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Mis logros</h5>
+                        <div class="d-flex flex-nowrap justify-content-between">
+                            <img src="../../../assets/medal.png" alt="" class="img-fluid flex-grow-1">
+                            <img src="../../../assets/medal.png" alt="" class="img-fluid flex-grow-1">
+                            <img src="../../../assets/medal.png" alt="" class="img-fluid flex-grow-1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <h3>Nombre</h3>
+                        <p>{{datosUsuario.nombre}}</p>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <h3>Apellidos</h3>
+                        <p>{{datosUsuario.apellidos}}</p>
+                    </div>
+                </div>
+                <h3>Email</h3>
+                <p>{{datosUsuario.email}}</p>
+                <h3>Nick</h3>
+                <p>{{datosUsuario.nick}}</p>
+            </div>
+
+            <div class="col-12 d-flex flex-column flex-md-row justify-content-end text-md-end">
+                <button type="button" class="btn btn-warning me-md-2 mb-2 mb-md-0" disabled>Ver lista de deseados</button>
+                <button class="btn btn-dark me-md-2 mb-2 mb-md-0" disabled>Editar perfil</button>
+                <button class="btn btn-dark me-md-2 mb-2 mb-md-0" disabled>Cambiar contraseña</button>
+            </div>
+        </div>
+    </div>
+    
+    <h1 class="text-center p-2"><b>Mazos</b></h1>
+    
+    @for (mazo of mazos; track mazo) {
+        <div ngbAccordion #accordion="ngbAccordion" class="mb-3 game-card">
+            <div ngbAccordionItem="first">
+                <h2 ngbAccordionHeader>
+                    <button ngbAccordionButton class="position-relative">
+                        <h4 class="p-2">{{ mazo.nombre }}</h4>
+                        <span class="badge rounded-pill text-bg-info p-2">{{ mazo.formato }}</span>
+                    </button>
+                </h2>
+                <div ngbAccordionCollapse>
+                    <div ngbAccordionBody>
+                        <ng-template>
+                            @for (carta of cartasMazo; track carta) {
+                                <div class="row">
+                                    @if (carta.carta.nombre_es == null) {
+                                        <div class="col-12 col">
+                                            <p>{{carta.carta.nombre_en}}</p>
+                                        </div>
+                                    } @else {
+                                        <div class="col-12 col-md-6">
+                                            <p>{{carta.carta.nombre_en}}</p>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
