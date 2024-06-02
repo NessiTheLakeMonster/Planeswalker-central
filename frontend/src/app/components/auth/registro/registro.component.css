@@ -33,3 +33,27 @@
     background-color: #0f2d4d; 
     color: #ffffff;
 }
+
+@media screen and (max-width: 600px) {
+    .alerta-flotante {
+        width: 90%;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 1000px) {
+    .alerta-flotante {
+        width: 75%;
+    }
+}
+
+@media screen and (min-width: 1000px){
+    .alerta-flotante {
+        width: 50%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .alerta-flotante {
+        width: 15%;
+    }
+}
