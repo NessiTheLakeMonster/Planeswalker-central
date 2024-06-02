@@ -37,9 +37,3 @@
 .logros-card img {
     width: 10%;
 }
-
-@media screen and (min-width: 1000px){
-    .container {
-        margin-left: 115px;
-    }
-}
