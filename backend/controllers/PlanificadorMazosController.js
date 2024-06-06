@@ -71,12 +71,15 @@ const recomendacionMazo = async (req, res = response) => {
         }
 
         longitudMazo = Object.values(numCartasPorTipo).reduce((a, b) => a + b, 0);
+        console.log(numCartasPorTipo);
+        console.log(longitudMazo);
     } while (longitudMazo !== mazoLength);
 
     const cartas = [];
     const tipos = Object.keys(numCartasPorTipo);
 
     for (const tipo of tipos) {
+        console.log(tipo);
 
         let cartasObtenidas = [];
         while (cartasObtenidas.length < numCartasPorTipo[tipo]) {
@@ -107,12 +110,13 @@ const recomendacionMazo = async (req, res = response) => {
 
                 }
             }
-
             
         }
         cartas.push(...cartasObtenidas);
     }
 
+
+    console.log(cartas.length);
 
     res.json({
         cartas: cartas
